@@ -17,7 +17,7 @@
 #                 nums[current] = nums[idx]
 
 #     return current + 1 #last unique index plus one
-
+# time complexity - O(n) because uses a single loop
 
 # def maxProfit(prices):
 #     """ Finds best time to buy and sell stock """
@@ -40,7 +40,7 @@
 #             max_profit += prices[i] - prices[i -1]
 
 # #     return max_profit
-
+# time complexity - O(n)
 
 # class Solution:
 #     def rotate(self, nums: List[int], k: int) -> None:
@@ -50,6 +50,7 @@
 #         k = k % len(nums)
 
 #         nums[:] = nums[-k:] + nums[:-k]
+# time complexity - O(n)
 
 
 # class Solution:
@@ -62,3 +63,20 @@
 #                 return True
 #             seen.add(n)
 #         return False
+# time complexity - O(n)
+
+
+# class Solution:
+#     def singleNumber(self, nums: List[int]) -> int:
+#         counts = {}
+
+#         for num in nums:
+#             if num in counts:
+#               counts[num] += 1
+#             else:
+#               counts[num] = 1
+
+#         for num, count in counts.items():
+#             if count == 1:
+#               return num
+# time complexity - O(n)
