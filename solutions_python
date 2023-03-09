@@ -80,3 +80,27 @@
 #             if count == 1:
 #               return num
 # time complexity - O(n)
+
+
+def intersect(nums1, nums2):
+
+    count1 = {}
+    result = []
+
+    if len(nums1) < len(nums2):
+        nums1, nums2 = nums2, nums1
+
+    for n in nums1:
+        if n in count1:
+            count1[n] += 1
+        else:
+            count1[n] = 1
+
+    for n in nums2:
+        if n in count1 and count1[n]:
+            count1[n] -= 1
+            result.append(n)
+    return result
+
+
+print(intersect([1, 4, 5, 3, 6], [2, 3, 5, 7, 9]))
