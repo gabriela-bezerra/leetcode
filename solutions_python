@@ -82,25 +82,45 @@
 # time complexity - O(n)
 
 
-def intersect(nums1, nums2):
+# def intersect(nums1, nums2):
 
-    count1 = {}
-    result = []
+#     count1 = {}
+#     result = []
 
-    if len(nums1) < len(nums2):
-        nums1, nums2 = nums2, nums1
+#     if len(nums1) < len(nums2):
+#         nums1, nums2 = nums2, nums1
 
-    for n in nums1:
-        if n in count1:
-            count1[n] += 1
-        else:
-            count1[n] = 1
+#     for n in nums1:
+#         if n in count1:
+#             count1[n] += 1
+#         else:
+#             count1[n] = 1
 
-    for n in nums2:
-        if n in count1 and count1[n]:
-            count1[n] -= 1
-            result.append(n)
-    return result
+#     for n in nums2:
+#         if n in count1 and count1[n]:
+#             count1[n] -= 1
+#             result.append(n)
+#     return result
 
 
-print(intersect([1, 4, 5, 3, 6], [2, 3, 5, 7, 9]))
+# print(intersect([1, 4, 5, 3, 6], [2, 3, 5, 7, 9]))
+
+
+def plusOne(digits):
+
+    i = len(digits) - 1  # get index of the last digit
+    digits[i] += 1  # add one to the index
+
+    while i > 0 and digits[i] == 10:  # chechk if the digit = 10 and carry the 1
+        digits[i] = 0  # set the current index to 0
+        i -= 1  # move to the previos index
+        digits[i] += 1  # carry and add the 1
+
+    if digits[0] == 10:  # check if the first index = 10 so we need to create a extra digit like 999 to 1000
+        digits[0] = 0  # set first index to 0
+        digits.insert(0, 1)  # add a new element at index 0 with the value 1
+
+    return digits
+
+# time complexity - O(n)
+# space complexity - O(n)
