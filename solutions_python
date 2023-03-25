@@ -402,3 +402,68 @@ def duplicate_even_numbers(numbers):
 
 
 print(duplicate_even_numbers([1, 2, 5, 6, 8, None, None, None]))
+
+
+# Given a sentence, reverse the words of the sentence. For example, "i live in a house" becomes "house a in live i".
+
+def reverse_words(string):
+    result = []
+    string_list = string.split(" ")
+    end = len(string_list) - 1
+
+    for i in range(end, -1, -1):
+        result.append(string_list[i])
+
+    return " ".join(result)
+
+
+print(reverse_words("i live in a house"))
+
+# time complexity - O(n)
+
+
+# Reverse the order of elements in an array. For example
+# A = [1,2,3,4,5,6], Output = [6,5,4,3,2,1]
+
+
+def reverse_elements(a):
+    start = 0
+    end = len(a) - 1
+
+    while start < end:
+        a[start], a[end] = a[end], a[start]
+        start += 1
+        end -= 1
+
+    return a
+
+
+print(reverse_elements([1, 2, 3, 4, 5, 6, 7, 8, 9]))
+print(reverse_elements([]))
+print(reverse_elements([1, 2, 3]))
+
+
+# time complexity -  O(n)
+
+
+# Two Sum Problem - Find 2 numbers in a sorted array that sum to X.
+# For example, if A = [1,2,3,4,5], and X = 9, the numbers are 4 and 5.
+
+def find_sum(array, target):
+    start = 0
+    end = len(array) - 1
+
+    while start < end:
+        if array[start] + array[end] > target:
+            end -= 1
+        if array[start] + array[end] < target:
+            start += 1
+        if array[start] + array[end] == target:
+            return [array[start], array[end]]
+
+    return None
+
+
+print(find_sum([1, 2, 3, 4, 5], 6))
+
+# time complexity = O(n)
