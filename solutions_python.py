@@ -467,3 +467,28 @@ def find_sum(array, target):
 print(find_sum([1, 2, 3, 4, 5], 6))
 
 # time complexity = O(n)
+
+
+# Given a sorted array in non-decreasing order, return an array of squares of each number, also in non-decreasing order.
+# For example:[-4,-2,-1,0,3,5] -> [0,1,4,9,16,25] How can you do it in O(n) time?
+
+def number_squared(array):
+    start = 0
+    end = len(array) - 1
+
+    result = []
+
+    while start <= end:
+        if abs(array[start]) > abs(array[end]):
+            result.insert(0, array[start] ** 2)
+            start += 1
+        else:
+            result.insert(0, array[end] ** 2)
+            end -= 1
+
+    return result
+
+
+print(number_squared([-4, -2, -1, 0, 3, 5]))
+
+# time complexity of O(n)
