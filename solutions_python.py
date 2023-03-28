@@ -12,9 +12,9 @@ def removeDuplicates(nums):
     current = 0
 
     for idx in range(len(nums)):
-            if nums[idx] != nums[current]:
-                current += 1
-                nums[current] = nums[idx]
+        if nums[idx] != nums[current]:
+            current += 1
+            nums[current] = nums[idx]
 
     return current + 1  # last unique index plus one
 # time complexity - O(n) because uses a single loop
@@ -44,7 +44,7 @@ def maxProfit(prices):
 # time complexity - O(n)
 
 
-def rotate(self, nums: List[int], k: int) -> None:
+def rotate(nums):
     """
     Do not return anything, modify nums in-place instead.
     """
@@ -55,7 +55,7 @@ def rotate(self, nums: List[int], k: int) -> None:
 # time complexity - O(n)
 
 
-def containsDuplicate(self, nums: List[int]) -> bool:
+def containsDuplicate(nums):
 
     seen = set()
 
@@ -68,7 +68,7 @@ def containsDuplicate(self, nums: List[int]) -> bool:
 # time complexity - O(n)
 
 
-def singleNumber(self, nums: List[int]) -> int:
+def singleNumber(nums):
     counts = {}
 
     for num in nums:
@@ -128,23 +128,23 @@ def plusOne(digits):
 # space complexity - O(n)
 
 
-def containsDuplicate(self, nums):
-      seen = set()
+def containsDuplicate(nums):
+    seen = set()
 
-      for num in nums:
+    for num in nums:
         if num in seen:
-          return True
+            return True
         seen.add(num)
 
-      return False
+    return False
 
 
-def checkIfPangram(self, sentence):
+def checkIfPangram(sentence):
     unique_elementes = set()
 
     for char in sentence.lower():
-      if char not in unique_elementes:
-        unique_elementes.add(char)
+        if char not in unique_elementes:
+            unique_elementes.add(char)
 
     return len(unique_elementes) == 26
 
@@ -298,13 +298,13 @@ def multiply(a, b):
 
 def missingNumber(nums):
 
-        nums = set(nums)
-        l = len(nums) + 1
-        # for i in range (0, len(nums) +1):
-        #     count.add(i)
+    nums = set(nums)
+    l = len(nums) + 1
+    # for i in range (0, len(nums) +1):
+    #     count.add(i)
 
-        for n in (0, l):
-          if n not in nums:
+    for n in (0, l):
+        if n not in nums:
             return n
 
 
@@ -330,25 +330,25 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
 # Output: [0, 1]
 
 
-def moveZeroes(self, nums: List[int]) -> None:
+def moveZeroes(nums):
     """
         Do not return anything, modify nums in-place instead.
         """
 
-     l = 0
-      r = 0
+    l = 0
+    r = 0
 
-       while r < len(nums):
-            if nums[r] != 0:
-                temp = nums[r]
-                nums[r] = nums[l]
-                nums[l] = temp
-                l += 1
-                r += 1
-            else:
-                r += 1
+    while r < len(nums):
+        if nums[r] != 0:
+            temp = nums[r]
+            nums[r] = nums[l]
+            nums[l] = temp
+            l += 1
+            r += 1
+        else:
+            r += 1
 
-        return nums
+    return nums
 
 
 # Input: nums = [0, 1, 0, 3, 12]
@@ -357,9 +357,10 @@ def moveZeroes(self, nums: List[int]) -> None:
 
 # For e.g, if A = [6,3,5,2,1,7]. X = 4, Result= [3,1]
 
+
 def find_pair(lst, target):
 
-    tracking  = {}
+    tracking = {}
 
     for i, num in enumerate(lst):
         if target - num in tracking:
@@ -369,7 +370,14 @@ def find_pair(lst, target):
 
     return None
 
-print(find_pair([6,3,5,2,1,7], 10))
+
+print(find_pair([6, 3, 5, 2, 1, 7], 10))
+
+
+# ------------ REVERSING FROM BOTH ENDS
+
+# Given an array of numbers, replace each even number with two of the same number.
+# e.g, [1,2,5,6,8] -> [1,2,2,5,6,6,8,8]. Assume that the array has enough space to accommodate the result.
 
 
 def duplicate_even_numbers(numbers):
@@ -413,6 +421,9 @@ def reverse_words(string):
 print(reverse_words("i live in a house"))
 
 # time complexity - O(n)
+
+
+# ------------ REVERSING FROM BOTH ENDS
 
 
 # Reverse the order of elements in an array. For example
@@ -485,3 +496,22 @@ def number_squared(array):
 print(number_squared([-4, -2, -1, 0, 3, 5]))
 
 # time complexity of O(n)
+
+
+# ------------ PARTITIONING ARRAYS
+
+# You are given an array of integers. Rearrange the array so that all zeroes are at the beginning of the array.
+# For example, [4,2,0,1,0,3,0] -> [0,0,0,4,1,2,3]
+
+def move_zeroes(array):
+    b = 0
+
+    for i in range(len(array)):
+        if array[i] == 0:
+            array[b], array[i] = array[i], array[b]
+            b += 1
+
+    return array
+
+
+print(move_zeroes([0, 2, 0, 3, 1, 0, 4, 0]))
