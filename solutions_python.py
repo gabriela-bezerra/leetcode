@@ -498,10 +498,75 @@ print(number_squared([-4, -2, -1, 0, 3, 5]))
 # time complexity of O(n)
 
 
+# A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+# Given a string s, return true if it is a palindrome, or false otherwise.
+
+
+# Example 1:
+
+# Input: s = "A man, a plan, a canal: Panama"
+# Output: true
+# Explanation: "amanaplanacanalpanama" is a palindrome.
+# Example 2:
+
+# Input: s = ":(start):::race a car(end)"
+# Output: false
+# Explanation: "raceacar" is not a palindrome.
+# Example 3:
+
+# Input: s = " "
+# Output: true
+# Explanation: s is an empty string "" after removing non-alphanumeric characters.
+# Since an empty string reads the same forward and backward, it is a palindrome.
+
+# "raceacar"
+# "amanaplanacanalpanama"
+
+#  s = "A man, a plan, a canal: Panama"
+
+
+def find_palindrome(string):
+    start = 0
+    end = len(string) - 1
+
+    while start < end:
+        print('############')
+        print("start::", start)
+        print("end:::", end)
+        # logic
+
+        while start < end and not string[start].isalpha():
+            # print("alpha::", string[start].isalpha())
+            start += 1
+        print('start::', start)
+        print('end:::', end)
+        print('############')
+        while start < end and not string[end].isalpha():
+            end -= 1
+
+        # print("comparison::::")
+        # print("start::", string[start])
+        # print("end::", string[end])
+        print('string[start].lower():::', string[start].lower())
+        if string[start].lower() != string[end].lower():
+            return False
+        start += 1
+        end -= 1
+
+    return True
+
+
+print(find_palindrome(" "))
+
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+
 # ------------ PARTITIONING ARRAYS
 
 # You are given an array of integers. Rearrange the array so that all zeroes are at the beginning of the array.
 # For example, [4,2,0,1,0,3,0] -> [0,0,0,4,1,2,3]
+
 
 def move_zeroes(array):
     b = 0
