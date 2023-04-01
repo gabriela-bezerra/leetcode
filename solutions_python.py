@@ -374,7 +374,40 @@ def find_pair(lst, target):
 print(find_pair([6, 3, 5, 2, 1, 7], 10))
 
 
-# ------------ REVERSING FROM BOTH ENDS
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+
+        # test
+        # s = '' , t = '' >> True
+        # s= 'rat1', t=' car1' >> False
+        # s = "anagram2", t = "nagaram4" >> False
+
+        # iterare, store each char on hash
+        # compare s == t
+
+        check_s = {}
+        check_t = {}
+
+        for char in s:
+            if char not in check_s:
+                check_s[char] = 1
+            else:
+                check_s[char] += 1
+
+        for char in t:
+            if char not in check_t:
+                check_t[char] = 1
+            else:
+                check_t[char] += 1
+
+        return check_s == check_t
+
+# Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+# An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+
+# ------------ TRAVERSE ARRAY IN REVERSE
 
 # Given an array of numbers, replace each even number with two of the same number.
 # e.g, [1,2,5,6,8] -> [1,2,2,5,6,6,8,8]. Assume that the array has enough space to accommodate the result.
@@ -580,3 +613,71 @@ def move_zeroes(array):
 
 
 print(move_zeroes([0, 2, 0, 3, 1, 0, 4, 0]))
+
+
+# Now, given an array, move all zeroes to the end of the array.
+# For example, [4,2,0,1,0,3,0] -> [4,1,2,3,0,0,0]
+
+def move_zeroes(array):
+    b = len(array) - 1
+
+    for i in range(len(array) - 1, -1, -1):
+        if array[i] == 0:
+            array[b], array[i] = array[i], array[b]
+            b -= 1
+
+    return array
+
+
+print(move_zeroes([4, 2, 0, 1, 0, 3, 0]))
+
+# ----------------keeping the order
+
+
+def move_zeroes(array):
+    fast = 0
+    slow = 0
+
+    while fast < len(array):
+        if array[fast] != 0:
+            array[slow], array[fast] = array[fast], array[slow]
+            slow += 1
+        fast += 1
+
+    return array
+
+
+print(move_zeroes([4, 2, 0, 1, 0, 3, 0]))
+
+# For example, [4,2,0,1,0,3,0] -> [4,2,1,3,0,0,0]
+
+
+#  Dutch National Flag Problem: Given an array of integers A and a pivot, rearrange A in the following order:
+# [Elements less than pivot, elements equal to pivot, elements greater than pivot]
+
+# For example, if A = [5,2,4,4,6,4,4,3] and pivot = 4 -> result = [3,2,4,4,4,4,6,5]
+
+# Note: the order within each section doesn't matter.
+
+
+def reorder_array(array, pivot):
+    low_b = 0
+    high_b = len(array) - 1
+    i = 0
+
+    while i <= high_b:
+        if array[i] < pivot:
+            array[i], array[low_b] = array[low_b], array[i]
+            low_b += 1
+            i += 1
+
+        if array[i] > pivot:
+            array[i], array[high_b] = array[high_b], array[i]
+            high_b -= 1
+
+        else:
+            i += 1
+    return array
+
+
+print(reorder_array([5, 2, 4, 4, 6, 4, 4, 3], 4))
