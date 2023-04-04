@@ -564,24 +564,11 @@ def find_palindrome(string):
     end = len(string) - 1
 
     while start < end:
-        print('############')
-        print("start::", start)
-        print("end:::", end)
-        # logic
 
         while start < end and not string[start].isalpha():
-            # print("alpha::", string[start].isalpha())
             start += 1
-        print('start::', start)
-        print('end:::', end)
-        print('############')
         while start < end and not string[end].isalpha():
             end -= 1
-
-        # print("comparison::::")
-        # print("start::", string[start])
-        # print("end::", string[end])
-        print('string[start].lower():::', string[start].lower())
         if string[start].lower() != string[end].lower():
             return False
         start += 1
@@ -681,3 +668,95 @@ def reorder_array(array, pivot):
 
 
 print(reorder_array([5, 2, 4, 4, 6, 4, 4, 3], 4))
+
+
+# ------------ SUBARRAY - SLIDING WINDOW
+
+# Given an array of positive integers, find the contiguous subarray that sums to a given number X.
+
+# Given an array of positive integers, find a subarray that sums to a given number X.For e.g, input = [1,2,3,5,2] and X=8, Result = [3,5] (indexes 2,3)
+
+def find_subarray(array, target):
+    s = 0
+    e = 0
+    sum = array[0]
+
+    while s < len(array):
+        if sum < target:
+            e += 1
+            sum = sum + array[e]
+        elif sum > target:
+            sum = sum - array[s]
+            s += 1
+        else:
+            return (s, e)
+
+    return None
+
+
+print(find_subarray([1, 2, 3, 5, 2], 8))
+
+# time - space complexity = O(n) / O(1)
+
+
+# ------------ SUBARRAY - PREFIX SUM
+
+
+# Given a String, find the longest substring with unique characters.
+
+# For example: "whatwhywhere" --> "atwhy"
+
+def find_longest(string):
+    track = {}
+    start, end, longest = 0, 0, 1
+    result = [0, 0]
+    track[string[0]] = 0
+
+    while end < len(string) - 1:
+        end += 1
+        to_add = string[end]
+        if to_add in track and track[to_add] >= start:
+            start = track[to_add] + 1
+        track[to_add] = end
+
+        if end - start + 1 > longest:
+            longest = end - start + 1
+            result[0], result[1] = start, end
+
+    # final = string[result[0]:result[1] + 1]  ## prints the substring
+
+    # return final
+
+    return result  # returns the idx
+
+
+print(find_longest("whatwhywhere"))
+
+
+# time - space complexity = O(n) / O(n)
+
+
+# Given an array of integers, both -ve and +ve, find a contiguous subarray that sums to 0.For example: [2,4,-2,1,-3,5,-3] --> [4,-2,1,-3]
+
+
+def find_sum(array, x):
+
+    sum = 0
+    map = {}
+
+    for i in range(len(array)):
+        sum += array[i]
+
+        if sum == x:
+            return (0, i)
+
+        elif sum - x in map:
+            return map[sum-1], i
+
+        map[sum] = i
+
+    return None
+
+
+# print(find_sum([2,4,-2,1,-3,5,-3], 0))
+print(find_sum([2, 4, -2, 1, -3, 5, -3], 5))
