@@ -459,6 +459,27 @@ print(reverse_words("i live in a house"))
 # ------------ REVERSING FROM BOTH ENDS
 
 
+# Given a sentence, reverse the words of the sentence. For example, "i live in a house" becomes "house a in live i".
+
+
+def reverse_string(string):
+    sentence = string.split(' ')
+    start = 0
+    end = len(sentence) - 1
+
+    while start <= end:
+        sentence[start], sentence[end] = sentence[end], sentence[start]
+        start += 1
+        end -= 1
+
+    return " ".join(sentence)
+
+
+print(reverse_string("i live in a house maria"))
+
+# time/space complexity - O(n) / O(n)
+
+
 # Reverse the order of elements in an array. For example
 # A = [1,2,3,4,5,6], Output = [6,5,4,3,2,1]
 
