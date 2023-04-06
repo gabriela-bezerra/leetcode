@@ -603,7 +603,9 @@ print(find_palindrome(" "))
 # Time Complexity: O(n)
 # Space Complexity: O(1)
 
+
 # ------------ PARTITIONING ARRAYS
+
 
 # You are given an array of integers. Rearrange the array so that all zeroes are at the beginning of the array.
 # For example, [4,2,0,1,0,3,0] -> [0,0,0,4,1,2,3]
@@ -691,7 +693,61 @@ def reorder_array(array, pivot):
 print(reorder_array([5, 2, 4, 4, 6, 4, 4, 3], 4))
 
 
+# ------------ SUBARRAY - Kadane's
+
+
+# Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+# Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+# Output: 6
+# Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+
+# Input: nums = [1]
+# Output: 1
+# Explanation: The subarray [1] has the largest sum 1.
+
+# Input: nums = [5,4,-1,7,8]
+# Output: 23
+# Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+# [-2,1,-3,4,-1,2,1,-5,4]
+# Input: nums = [-2,1,-3]
+
+#curr_subarray = [4]
+# _____________________________
+
+#curr_subarray = max(2, 4)
+#[100, -101, -1]
+
+# max_subarray = max(max_array, curr_subarray)
+
+
+def return_max_sum(subarray):
+
+    max_sum = float('-inf')
+    curr_sum = 0
+
+    for i in range(len(subarray)):
+        curr_sum = max(subarray[i], subarray[i] + curr_sum)
+
+        max_sum = max(max_sum, curr_sum)
+
+    return max_sum
+
+
+# print(return_max_sum([-2,1,-3,4,-1,2,1,-5,4]))
+
+# print(return_max_sum([1]))
+
+# print(return_max_sum([-1]))
+
+# print(return_max_sum([5,4,-1,7,8]))
+
+# print(return_max_sum([100, -101, -1]))
+
+
 # ------------ SUBARRAY - SLIDING WINDOW
+
 
 # Given an array of positive integers, find the contiguous subarray that sums to a given number X.
 
