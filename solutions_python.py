@@ -1678,3 +1678,64 @@ def find_sum(array, x):
 
 # print(find_sum([2,4,-2,1,-3,5,-3], 0))
 print(find_sum([2, 4, -2, 1, -3, 5, -3], 5))
+
+# Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place
+# such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+
+
+def removeDuplicates(self, nums: List[int]) -> int:
+
+    seen = set()
+
+    b = 0
+
+    for i in range(len(nums)):
+        if nums[i] not in seen:
+            seen.add(nums[i])
+            nums[b] = nums[i]
+            b += 1
+
+    return b
+
+
+def maxProfit(self, prices: List[int]) -> int:
+
+    max_profit = 0
+
+    for i in range(1, len(prices)):
+        if prices[i] - prices[i-1] > 0:
+            max_profit += prices[i] - prices[i-1]
+
+    return max_profit
+
+
+def move_zeroes(nums):
+
+    b = 0
+
+    for i in range(len(nums)):
+        if nums[i] != 0:
+            nums[b], nums[i] = nums[i], nums[b]
+            b += 1
+
+    return nums
+
+
+print(move_zeroes([0, 1, 0, 3, 12]))
+
+
+def find_sum(nums, target):
+
+    map = {}
+
+    for i in range(len(nums)):
+        possible_sum = target - nums[i]
+        if possible_sum in map:
+            return [i, map[possible_sum]]
+        else:
+            map[nums[i]] = i
+
+    return None
+
+
+print(find_sum([2, 7, 11, 15], 9))
