@@ -1739,3 +1739,80 @@ def find_sum(nums, target):
 
 
 print(find_sum([2, 7, 11, 15], 9))
+
+# Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+def firstUniqChar(self, s: str) -> int:
+        map = {}
+        
+        for i in range(len(s)):
+            if s[i] not in map:
+                map[s[i]] = 1
+            else:
+                map[s[i]] += 1
+        
+        for i in range(len(s)):
+            if map[s[i]] == 1:
+                return i
+                break 
+                
+        return -1
+
+
+
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        
+        start = 0
+        end = len(s) -1
+        
+        while start <= end:
+            s[start], s[end] = s[end], s[start]
+            start += 1
+            end -= 1
+            
+        return s
+
+def isAnagram(self, s: str, t: str) -> bool:
+        
+        map1 = {}
+        map2 = {}
+        
+        for char in s:
+            if char.isalpha() and char not in map1:
+                map1[char] = 1
+            else:
+                map1[char] += 1
+                
+        for char in t:
+            if char.isalpha() and char not in map2:
+                map2[char] = 1
+            else:
+                map2[char] += 1
+
+        return map1 == map2
+
+
+def isPalindrome(self, s: str) -> bool:
+        
+        start = 0
+        end = len(s) -1
+        
+        while start <= end:
+            
+            while start < end and not s[start].isalnum():
+                start += 1
+            while start < end and not s[end].isalnum():
+                end -= 1
+                
+            if s[start].lower() != s[end].lower():
+                return False
+            start += 1
+            end -= 1
+        
+        return True
+        
+
+
