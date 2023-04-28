@@ -713,11 +713,11 @@ print(reorder_array([5, 2, 4, 4, 6, 4, 4, 3], 4))
 # [-2,1,-3,4,-1,2,1,-5,4]
 # Input: nums = [-2,1,-3]
 
-#curr_subarray = [4]
+# curr_subarray = [4]
 # _____________________________
 
-#curr_subarray = max(2, 4)
-#[100, -101, -1]
+# curr_subarray = max(2, 4)
+# [100, -101, -1]
 
 # max_subarray = max(max_array, curr_subarray)
 
@@ -1554,11 +1554,11 @@ print(reorder_array([5, 2, 4, 4, 6, 4, 4, 3], 4))
 # [-2,1,-3,4,-1,2,1,-5,4]
 # Input: nums = [-2,1,-3]
 
-#curr_subarray = [4]
+# curr_subarray = [4]
 # _____________________________
 
-#curr_subarray = max(2, 4)
-#[100, -101, -1]
+# curr_subarray = max(2, 4)
+# [100, -101, -1]
 
 # max_subarray = max(max_array, curr_subarray)
 
@@ -1625,7 +1625,7 @@ print(find_subarray([1, 2, 3, 5, 2], 8))
 # For example: "whatwhywhere" --> "atwhy"
 
 def find_longest(string):
-    track = {}
+    track = {string[0]: 0}
     start, end, longest = 0, 0, 1
     result = [0, 0]
     track[string[0]] = 0
@@ -1659,21 +1659,19 @@ print(find_longest("whatwhywhere"))
 
 def find_sum(array, x):
 
-    sum = 0
-    map = {}
+   sum = 0
+   map = {}
 
-    for i in range(len(array)):
-        sum += array[i]
+   for i in range(len(array)):
+    sum = sum + array[i]
 
-        if sum == x:
-            return (0, i)
+    if sum == x:
+        return (0, i)
 
-        elif sum - x in map:
-            return map[sum-1], i
+    elif sum - x in map:  # for finding 0 use -  sum in map:
+        return (map[sum-x]+1, i)
 
-        map[sum] = i
-
-    return None
+    map[sum] = i
 
 
 # print(find_sum([2,4,-2,1,-3,5,-3], 0))
@@ -1742,20 +1740,21 @@ print(find_sum([2, 7, 11, 15], 9))
 
 # Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
 
+
 def firstUniqChar(self, s: str) -> int:
         map = {}
-        
+
         for i in range(len(s)):
             if s[i] not in map:
                 map[s[i]] = 1
             else:
                 map[s[i]] += 1
-        
+
         for i in range(len(s)):
             if map[s[i]] == 1:
                 return i
-                break 
-                
+                break
+
         return -1
 
 
@@ -1812,7 +1811,240 @@ def isPalindrome(self, s: str) -> bool:
             start += 1
             end -= 1
         
-        return True
+        return True 
+
+
+
+
+
+# ------------ LINKED LISTS
+
+
+
+class Node:
+  def __init__(self, value):
+    self.value = value
+    self.next = None
+
+
+class LinkedList:
+  def __init__(self):
+    self.head = None
+    self.tail = None
+
+  def append(self, node):
+    if not self.head:
+      self.head = node
+    else:
+      self.tail.next = node
+    self.tail = node
+
+  def print_ll(self):
+    curr = self.head
+    
+    while curr:
+      print(curr.value)
+      curr = curr.next
+
+
+def separate_ll(L):
+  if not L.head:
+    return L
+
+  curr =  L.head
+  next_ = None
+  odd_ll = LinkedList()
+  even_ll = LinkedList()
+
+  while curr:
+    next_ = curr.next
+    curr.next = None
+    if curr.value % 2 == 0:
+      even_ll.append(curr)
+    else:
+      odd_ll.append(curr)
+
+    curr = next_
+
+  return (odd_ll, even_ll)
+
+# # _______create empty ll
+# ll = LinkedList()
+
+# # _______create node
+# one = Node(1)
+# two = Node(2)
+# three = Node(3)
+# five = Node(5)
+
+# # _______add nodes to ll
+# ll.append(one)
+# ll.append(two)
+# ll.append(three)
+# ll.append(five)
+
+# # _______call the function
+# lls = separate_ll(ll)
+
+# odd = lls[0]
+# even = lls[1]
+
+# print("ODD:::")
+# odd.print_ll()
+
+# print("EVEN::::")
+# even.print_ll()
+
+
+def append_ll(original, to_add):
+  original.append(to_add.head)
+  original.tail = to_add.tail
+
+  return original
+
+
+def sort_ll(L):
+
+  zero = LinkedList()
+  one = LinkedList()
+  two = LinkedList()
+
+  curr = L.head
+  next_ = None
+
+  while curr:
+    next_ = curr.next
+    curr.next = None
+
+    if curr.value == 0:
+      zero.append(curr)
+    if curr.value == 1:
+      one.append(curr)
+    if curr.value == 2:
+      two.append(curr)
+    
+    curr = next_
+
+  return (zero, one, two)
+
+
+ll = LinkedList()
+
+one = Node(1)
+zero = Node(0)
+two = Node(2)
+one_1 = Node(1)
+two_1 = Node(2)
+one_2 = Node(1)
+
+ll.append(one)
+ll.append(zero)
+ll.append(two)
+ll.append(one_1)
+ll.append(two_1)
+ll.append(one_2)
+
+ll_sorted = sort_ll(ll)
+
+
+appended = append_ll(ll_sorted[0], ll_sorted[1])
+result = append_ll(appended, ll_sorted[2])
+
+
+result.print_ll()
+
+
+
+
+
+
+# There is a singly-linked list head and we want to delete a node node in it.
+
+# Youre given the node to be deleted node. You will not be given access to the first node of head.
+
+# All the values of the linked list are unique, and it is guaranteed that the given node node is not the last node in the linked list.
+
+# Delete the given node. Note that by deleting the node, we do not mean removing it from memory. We mean:
+
+# The value of the given node should not exist in the linked list.
+# The number of nodes in the linked list should decrease by one.
+# All the values before node should be in the same order.
+# All the values after node should be in the same order.
+# Custom testing:
+
+# For the input, you should provide the entire linked list head and the node to be given node. node should not be the last node of the list and should be an actual node in the list.
+# We will build the linked list and pass the node to your function.
+# The output will be the entire list after calling your function.
+ 
+
+# Example 1:
+
+
+# Input: head = [4,5,1,9], node = 5
+# Output: [4,1,9]
+# Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
+
+
+# Example 2:
+
+# Input: head = [4,5,1,9], node = 1
+# Output: [4,5,9]
+# Explanation: You are given the third node with value 1, the linked list should become 4 -> 5 -> 9 after calling your function.
+
+# Definition for singly-linked list.
+class Node:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def append(self, node):
+        if self.head is None:
+            self.head = node
+        else:
+            self.tail.next = node
+        self.tail = node
+
+    # Input 4 -> *5 -> 1 -> 9
+    # Output 4 -> 1-> 9
+    def deleteNode(self, node):
+        print("Inside deleteNode::::")
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        # 4 -> *5 -> 1 -> *temp1 -> 9
+        node.val = node.next.val
         
+        # 4 -> *1 -> 1 -> 9
+        node.next = node.next.next
+        # 4 -> *1 -> *temp1 -> 9
+        # 4 -> 1 -> *9
+        node.next.next = None
+
+    
+    def print_ll(self):
+        curr = self.head
+        while curr: 
+            print(curr.val)
+            curr = curr.next
 
 
+four = Node(4)
+five = Node(5)
+one = Node(1)
+nine = Node(9)
+
+ll = LinkedList()
+
+ll.append(four)
+ll.append(five)
+ll.append(one)
+ll.append(nine)
+
+ll.deleteNode(five)
+ll.print_ll()
