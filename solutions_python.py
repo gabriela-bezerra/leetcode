@@ -2048,3 +2048,99 @@ ll.append(nine)
 
 ll.deleteNode(five)
 ll.print_ll()
+
+# Question Discussed: (Level: Medium) Print all combinations of length 3.
+
+def print_combos(a,x):
+  
+  buffer = [0] * x
+  print_combos_helper(a, buffer, 0, 0)
+
+def print_combos_helper(a,buffer, a_idx, b_idx):
+
+  if b_idx >= len(buffer):
+    print(buffer)
+    return
+  if a_idx >= len(a):
+    return
+
+  for i in range(a_idx, len(a)):
+    buffer[b_idx] = a[i]
+    print_combos_helper(a, buffer, i+1, b_idx+1)
+
+
+print_combos([1,2,3,4,5,6,7], 3)
+  
+
+
+
+# Level: MediumPhone Number Mnemonics: Given an N digit phone number, print all the strings that canbe made from that phone number. Since 1 and 0 don't correspond to any characters, ignorethem.For example:213 => AD, AE, AF, BD, BE, BF, CE, CE, CF456 => GJM, GJN, GJO, GKM, GKN, GKO,.. etc.
+
+
+
+def get_letter(digit):
+
+  if digit == 0 or digit == 1:
+    return []
+  elif digit == 2:
+    return (["A","B", "C"])
+  elif digit == 3:
+    return (["D","E", "F"])
+  elif digit == 4:
+    return (["G","H", "I"])
+
+  else:
+    return(" Digit not valid")
+
+
+def print_strings(phone):
+
+  buffer = [""]* len(phone)
+  print_strings_helper(phone, buffer, 0, 0)
+
+def print_strings_helper(phone, buffer, p_idx, b_idx):
+
+  if b_idx >= len(buffer) or p_idx >= len(phone):
+    print(""join.buffer)
+    return
+
+  letters = get_letter(phone[p_idx])
+ 
+  if not letters:
+    print_strings_helper(phone, buffer, p_idx+1, b_idx)
+  
+  print("letter::", letters)
+  
+  for letter in letters:
+    buffer[b_idx] = letter
+    print_strings_helper(phone, buffer, p_idx +1, b_idx +1)
+
+
+print_strings([2,1,3]) 
+
+
+
+# Given an array of integers A, print all its subsets.
+# 
+# For example:Input:​ [1, 2, 3]
+# Output:
+# [][1][2][3][1, 2][1, 3][2, 3][1, 2, 3]
+
+
+def print_sets(array):
+  buffer  =  [0] * len(array)
+  print_sets_helper(array, buffer, 0, 0)
+
+
+def print_sets_helper(array, buffer, a_idx, b_idx):
+
+  print(buffer[:b_idx])
+  if b_idx >= len(buffer) or a_idx >= len(array):
+    return
+
+  for i in range(a_idx, len(array)):
+    buffer[b_idx] = array[i]
+    print_sets_helper(array, buffer, i+1, b_idx +1)
+
+
+print_sets([1,2,3])
