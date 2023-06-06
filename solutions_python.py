@@ -2144,3 +2144,30 @@ def print_sets_helper(array, buffer, a_idx, b_idx):
 
 
 print_sets([1,2,3])
+
+# Given an array A, print all permutations of size X.
+# For example,
+# Input:A = [1,2,3]X = 2
+# Output:[1, 2][1, 3][2, 1][2, 3][3, 1][3, 2]
+
+
+def print_perm(array, x):
+  buffer = [0] * x
+  is_buffer = [False] * len(array)
+  print_perm_helper(array, buffer, 0, is_buffer)
+
+def print_perm_helper(array, buffer, b_idx, is_buffer):
+
+  if b_idx == len(buffer):
+    print(buffer)
+    return
+    
+  for i in range(len(array)):
+    if not is_buffer[i]:
+      buffer[b_idx] = array[i]
+      is_buffer[i] = True
+      print_perm_helper(array, buffer,b_idx +1, is_buffer)
+      is_buffer[i] = False
+      
+
+print_perm([1,2,3], 2)
