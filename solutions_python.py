@@ -2049,6 +2049,9 @@ ll.append(nine)
 ll.deleteNode(five)
 ll.print_ll()
 
+
+
+
 # Question Discussed: (Level: Medium) Print all combinations of length 3.
 
 def print_combos(a,x):
@@ -2286,3 +2289,159 @@ DICT = {'i': 0,
 
 print(word_break("ilikemangotango", DICT))
     
+
+# Find the nth number in the Fibonacci series. Fibonacci series is as follows:
+# 1, 1, 2, 3, 5, 8, 13, 21, ..
+# After the first two 1’s, each number is the sum of the previous two numbers.
+
+def find_fibonacci(n):
+
+    if n == 1 or n == 2:
+      return 1
+
+    find_fibonacci(n-1) + find_fibonacci(n-2)
+
+
+
+
+# Given an array of integers, print all combinations of size X.
+
+def print_combos(array, x):
+
+  buffer = [0] * x
+
+  print_combos_helper(array, buffer, 0, 0)
+
+def print_combos_helper(array, buffer, start, buffer_idx):
+
+  if buffer_idx == len(buffer):
+    print(buffer)
+    return
+  if start == len(array):
+    return 
+
+  for i in range(start, len(array)):
+    buffer[buffer_idx] = array[i]
+    print_combos_helper(array, buffer, i+1, buffer_idx + 1)
+
+
+print_combos([1,2,3,4,5,6,7], 3)
+
+
+# Phone Number Mnemonics: Given an N digit phone number, print all the strings that can
+# be made from that phone number. Since 1 and 0 don't correspond to any characters, ignore
+# them.
+# For example:
+# 213 => AD, AE, AF, BD, BE, BF, CE, CE, CF
+# 456 => GJM, GJN, GJO, GKM, GKN, GKO,.. etc
+
+def  get_letter(digit):
+
+  if digit == 1 or digit == 0:
+    return [] 
+
+  elif digit == 2:
+    return ["A", "B", "C"]
+  elif digit == 3:
+    return ["D", "E", "F"]
+  elif digit == 4:
+    return ["G", "H", "I"]
+  elif digit == 5:
+    return ["J", "K", "L"]
+  elif digit == 6:
+    return ["M", "N", "O"]
+
+  else:
+    return " Digit not valid"
+
+def print_strings(phone):
+
+  buffer =  [''] * len(phone)
+  print_strings_helpes(phone, buffer, 0,0)
+
+def print_strings_helpes(phone, buffer, start, buffer_idx):
+
+  if buffer_idx == len(buffer) or start == len(phone):
+    print("".join(buffer))
+    return
+
+  letters = get_letter(phone[start])
+
+  if not letters:
+    print_strings_helpes(phone, buffer, start+1, buffer_idx)
+    
+
+  for letter in letters:
+    buffer[buffer_idx] = letter
+    print_strings_helpes(phone, buffer, start+1, buffer_idx+1)
+
+
+print_strings([2,1,3])
+
+
+# Given an array of integers A, print all its subsets.
+# For example:
+# Input:
+#  [1, 2, 3]
+# Output:
+# []
+# [1]
+# [2]
+# [3]
+# [1, 2]
+# [1, 3]
+# [2, 3]
+# [1, 2, 3]
+
+def print_sets(array):
+
+  buffer = [0] * len(array)
+  print_sets_helper(array, buffer, 0,0)
+
+def print_sets_helper(array, buffer, start, b_idx):
+
+  print(buffer[:b_idx])
+
+  if b_idx >= len(buffer) or start >= len(array):
+    return
+
+  for i in range(start, len(array)):
+    buffer[b_idx] = array[i]
+    print_sets_helper(array, buffer, i+1, b_idx+1)
+
+print_sets([1,2,3])
+
+
+# Given an array A, print all permutations of size X.
+# For example,
+# Input:
+# A = [1,2,3]
+# X = 2
+# Output:
+# [1, 2]
+# [1, 3]
+# [2, 1]
+# [2, 3]
+# [3, 1]
+# [3, 2]
+
+
+def print_perm(array, x):
+  buffer = [0] * x
+  is_buffer = [False] * len(array)
+  print_perm_helper(array, buffer, is_buffer, 0)
+
+def print_perm_helper(array, buffer, is_buffer, b_idx):
+
+  if b_idx == len(buffer):
+    print(buffer)
+    return
+
+  for i in range(len(array)):
+    if not is_buffer[i]:
+      buffer[b_idx] = array[i]
+      is_buffer[i] = True
+      print_perm_helper(array, buffer, is_buffer, b_idx+1)
+      is_buffer[i] = False
+
+print_perm([1,2,3], 2)
