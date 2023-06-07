@@ -2171,3 +2171,118 @@ def print_perm_helper(array, buffer, b_idx, is_buffer):
       
 
 print_perm([1,2,3], 2)
+
+
+# Maze Problem: You are given a 2D array that represents a maze. It can have 2 values - 0 and 1.1 represents a wall and 0 represents a path.The objective is to reach the bottom right corner, i.e, A[A.length-1][A.length-1]. You start fromA[0][0]. You can move in 4 directions - up, down, left and right. Find if a path exists to thebottom right of the maze.For example, a path exists in the following maze:0 1 1 10 1 1 10 0 0 01 1 1 0
+
+
+
+
+class State:
+
+  UNVISETED = 0
+  VISITING = 1
+  NO_PATH = 2
+
+def oob(a, i, j):
+
+  return i < 0 or i >= len(a) or j < 0 or j >= len(a[0])
+
+def find_path(a):
+
+  memo = []
+
+  for _ in range(len(a)):
+    row = []
+    for _ in range(len(a[0])):
+      row.append(State.UNVISETED)
+    memo.append(row)
+
+  return find_path_helper(a, 0,0, memo)
+
+def find_path_helper(a, i,j, memo):
+
+  if oob(a,i,j) or a[i][j] == 1:
+    return False
+
+  if i == len(a) -1 and j == len(a[0]) -1:
+    return True
+
+  if memo[i][j] == State.NO_PATH or memo[i][j] == State.VISITING:
+    return False
+
+  memo[i][j] = State.VISITING
+
+  moves = [
+    (i+1, j),
+    (i-1, j),
+    (i, j+1),
+    (i, j-1)
+  ]
+
+  for move in moves:
+    if find_path_helper(a, move[0], move[1], memo):
+      return True
+
+  memo[i][j] = State.NO_PATH
+  return False
+
+print(find_path([
+  [0, 1 ,1 ,1],
+  [0, 1 ,1 ,1], 
+  [0 ,0, 0 ,0], 
+  [1 ,1, 1 ,0]
+]))
+
+
+# Level: MediumWordBreakProblem​: Given a String S, which contains letters and no spaces, determine if youcan break it into valid words. Return one such combination of words.You can assume that you are provided a dictionary of English words.For example:S = "ilikemangotango"Output:Return any one of these:"i like mango tango""i like man go tan go""i like mango tan go""i like man go tango"Questions to Clarify:Q. Can I return the result as a list of strings (each string is a word)?A. YesQ. What to return if no result is found?A. Just return null.Q. What if there are multiple possible results?A. Return any one valid result.Q. What if the String is empty or null?A. Return null.Solution:We use the following recursion: iterate ​i​ from 0 to the end of the string, andcheck if ​s[0..i]​is a valid word. If it’s a valid word, do the same for the remainder of the string.For example:We first iterate from 0. When ​i​ is 0, we find the first word - just "i".i​ l i k e m a n g o t a n g oWe then repeat the process with the rest of the string:result = ["i"]©​ 2017 Interview Camp (interviewcamp.io)
+
+
+
+class STATE:
+  UNVISITED = 1
+  NOT_FOUND = 2
+
+def word_break(string, dict):
+
+  memo = [STATE.UNVISITED] * len(string)
+  result = []
+
+  if word_break_helper(string,0,result, memo,dict):
+    return " ".join(result)
+
+  return None
+
+def word_break_helper(string,start,result, memo,dict):
+
+  if start == len(string):
+    return True
+
+  if memo[start] == STATE.NOT_FOUND:
+    return False
+
+  for i in range(start, len(string)):
+    candidate = string[start:i+1]
+
+    if candidate in dict:
+      result.append(candidate)
+      if word_break_helper(string,i+1,result, memo,dict):
+        return True
+      else:
+        result.pop()
+        memo[i+1] = STATE.NOT_FOUND
+
+  return False
+
+
+DICT = {'i': 0,
+        'like': 1,
+        'man': 2,
+        'mango': 3,
+        'tan': 4,
+        'tango': 5,
+        'go': 6
+ }
+
+print(word_break("ilikemangotango", DICT))
+    
