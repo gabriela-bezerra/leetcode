@@ -2447,7 +2447,7 @@ def print_perm_helper(array, buffer, is_buffer, b_idx):
 print_perm([1,2,3], 2)
 
 
-#You are given a 2D array that represents a maze. 
+# You are given a 2D array that represents a maze. 
 # It can have 2 values - 0 and 1.1 represents a wall and 0 represents a path.
 # The objective is to reach the bottom right corner, i.e, A[A.length-1][A.length-1]. You start fromA[0][0]. 
 # You can move in 4 directions - up, down, left and right. Find if a path exists to thebottom right of the maze.
@@ -2507,3 +2507,197 @@ def find_path_helper(array, i, j, memo):
 
 
 print(find_path([[0,1,1,1], [0,1,1,1], [0,0,0,0], [1,1,1,1]]))
+
+
+
+def print_tuples(a):
+
+  for i in range(len(a)):
+    word = a[i]
+    print ((word[0], word))
+
+
+print_tuples(['house', 'car', 'doll'])
+
+def print_tuples(numbers):
+
+  for i in range(len(numbers)):
+    if i % 2 == 0:
+      print(numbers[i])
+  
+
+
+print_tuples([1,2,3,4,5,6,7])
+
+
+def find_item(array, item):
+
+  for i in range(len(array)):
+    if array[i] == item:
+      return True
+  
+  return False
+
+
+print(find_item([1,2,3,4], 5))
+
+
+
+def count_string(string):
+
+  i = 0
+
+  for char in string:
+    i += 1
+
+  
+  print (i)
+
+count_string("love")
+
+
+def words_len(sentence):
+
+  result = []
+
+  words = sentence.split(" ")
+
+  for word in words:
+    result.append(len(word))
+
+  return result
+
+print(words_len("i see you tomorrow"))
+
+
+
+def find_max(numbers):
+
+  max = 0
+
+  for num in numbers:
+    if num > max:
+      max = num
+
+  return max
+
+
+print(find_max([200,20,50,60,90,150]))
+
+
+def find_max(numbers):
+
+  track = 0
+  start =  0
+
+  while start < len(numbers):
+    if numbers[start] >= track:
+      track = numbers[start]
+      
+    start += 1
+
+  return track
+
+print(find_max([20,20,50,60,90,150]))
+
+
+def get_longest(array):
+
+  result = ""
+
+  for string in array:
+    if len(string) > len(result):
+      result = string
+
+  return result
+
+print(get_longest(['hi', 'second', 'one', 'longest']))
+
+
+def count_item(array, x):
+
+  count = 0
+
+  for item in array:
+    if item == x:
+      count += 1
+
+  return count
+
+print(count_item([1,1,1,2,5,5,], 1))
+
+def find_indices(numbers):
+
+  result = []
+
+  for i in range(len(numbers)):
+    if numbers[i] % 2 == 0:
+      result.append(i)
+
+  return result
+
+print(find_indices([2,4,1]))
+
+
+def replace_vowels(string):
+
+  vowels = set("aeiou")
+
+  chars = list(string)
+
+  for i in range(len(chars)):
+    if chars[i] in vowels:
+      chars[i] = '*'
+
+  return "".join(chars)
+
+print(replace_vowels('returns'))
+
+
+def get_unique(string):
+
+  return list(set(string))
+
+
+print(get_unique("aaaabccccddefffg"))
+
+
+
+def count_chars(string):
+
+  count = {}
+
+  for char in string:
+    if char in count:
+      count[char] += 1
+    else:
+      count[char] = 1
+
+  return count
+
+print(count_chars('catty'))
+
+def is_palindrome(string):
+
+  start = 0
+  end = len(string) - 1
+
+  
+  while start < end:
+
+    while start < end and not string[start].isalpha():
+      start += 1
+
+    while start < end and not string[end].isalpha():
+      end -= 1       
+    
+    if string[start].lower() != string[end].lower():
+      return False 
+    start += 1
+    end -= 1
+    
+  return True
+      
+
+print(is_palindrome("A man, a plan, a canal: Panama"))
+  
