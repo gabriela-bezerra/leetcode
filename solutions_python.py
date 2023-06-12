@@ -2701,3 +2701,16 @@ def is_palindrome(string):
 
 print(is_palindrome("A man, a plan, a canal: Panama"))
   
+
+
+def largest_smallest(numbers, x):
+  result = []
+  
+  for num in numbers:
+    if num < x:
+      result.append(num)
+
+  return max(result)
+
+print(largest_smallest([1,300,3, 70, 100], 100))
+
