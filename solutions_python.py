@@ -2445,3 +2445,65 @@ def print_perm_helper(array, buffer, is_buffer, b_idx):
       is_buffer[i] = False
 
 print_perm([1,2,3], 2)
+
+
+#You are given a 2D array that represents a maze. 
+# It can have 2 values - 0 and 1.1 represents a wall and 0 represents a path.
+# The objective is to reach the bottom right corner, i.e, A[A.length-1][A.length-1]. You start fromA[0][0]. 
+# You can move in 4 directions - up, down, left and right. Find if a path exists to thebottom right of the maze.
+# For example, a path exists in the following maze:
+# 0 1 1 1
+# 0 1 1 1
+# 0 0 0 0
+# 1 1 1 0
+
+
+class STATE:
+    UNVISETED = 0
+    VISITING  = 1
+    NO_PATH = 2
+
+def find_path(array):
+
+  memo = []
+
+  for _ in range(len(array)):
+    row = []
+    for _ in range(len(array[0])):
+      row.append(STATE.UNVISETED)
+    memo.append(row)
+
+  return find_path_helper(array, 0, 0, memo)
+
+def find_path_helper(array, i, j, memo):
+
+  if i < 0 or i >= len(array) or j < 0 or j >= len(array[0]):
+    return False
+
+  if array[i][j] == 1:
+    return False
+
+  if memo[i][j] == STATE.VISITING or memo[i][j] == STATE.NO_PATH:
+    return False
+
+  if i == len(array) -1 and j == len(array[0]) -1:
+    return True
+
+  memo[i][j] = STATE.VISITING
+
+  points = [
+    (i + 1, j),
+    (i - 1, j),
+    (i, j + 1),
+    (i, j - 1)
+  ]
+
+  for point in points:
+    if find_path_helper(array, point[0], point[1], memo):
+      return True
+
+  memo[i][j] =  STATE.NO_PATH
+  return False
+
+
+print(find_path([[0,1,1,1], [0,1,1,1], [0,0,0,0], [1,1,1,1]]))
