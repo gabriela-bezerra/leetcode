@@ -2714,3 +2714,28 @@ def largest_smallest(numbers, x):
 
 print(largest_smallest([1,300,3, 70, 100], 100))
 
+
+
+# Given an array of integers, print all combinations of size X.
+
+def print_combos(array, x):
+
+  buffer = [0] * x
+
+  print_combos_helper(array, buffer, 0, 0)
+
+def print_combos_helper(array, buffer, start, buffer_idx):
+
+  if buffer_idx == len(buffer):
+    print(buffer)
+    return
+  if start == len(array):
+    return 
+
+  for i in range(start, len(array)):
+    buffer[buffer_idx] = array[i]
+    print_combos_helper(array, buffer, i+1, buffer_idx + 1)
+
+
+print_combos([1,2,3,4,5,6,7], 3)
+
