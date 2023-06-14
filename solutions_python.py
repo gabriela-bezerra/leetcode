@@ -2739,3 +2739,252 @@ def print_combos_helper(array, buffer, start, buffer_idx):
 
 print_combos([1,2,3,4,5,6,7], 3)
 
+
+
+
+# Given an array of integers, print all combinations of size X.
+
+# Input:
+# [1,2,3,4,5,6,7], 3
+# Output:
+# [1,2,3] [1,2,4] [1,2,5] [1,2,6] [1,2,7]
+# [1,3,4] [1,3,5] [1,3,6] [1,3,7]..
+
+# - create a new array to allocate the result - Buffer
+# - find the elements to add to the buffer
+# - print full buffer
+# - stop once reachs end of array
+# - track on the buffer and another on the array - array_index / buffer_index
+
+# [1*,2,3,4,5,6,7]
+# [0*,0,0]
+
+def print_combos(array, x):
+  buffer =  [0] * x
+  print_combos_helper(array, buffer, 0, 0)
+
+def print_combos_helper(array, buffer, array_index, buffer_index):
+
+  if buffer_index == len(buffer):
+    print(buffer)
+    return
+
+  if array_index == len(array):
+    return 
+
+  for i in range(array_index, len(array)):
+    buffer[buffer_index] = array[i]
+    print_combos_helper(array, buffer, i + 1, buffer_index + 1)
+
+
+print_combos([1,2,3,4,5,6,7], 3)
+
+
+
+
+
+# Phone Number Mnemonics: Given an N digit phone number, print all the strings that canbe made from that phone number. Since 1 and 0 don't correspond to any characters, ignorethem.For 
+
+# example:
+# 213 => AD, AE, AF, BD, BE, BF, CE, CE, CF
+# 456 => GJM, GJN, GJO, GKM, GKN, GKO,.. etc.
+
+
+
+# - define the valid char to each digit
+# - get the char and allocate on a array
+# - print full array
+# - stop once reachs the end of the array
+# - Ignore 1 and 0
+
+
+def get_chars(digit):
+
+  if digit == 0 or digit == 1:
+    return []
+  elif digit == 2:
+    return ['A', 'B', 'C']
+  elif digit == 3:
+    return ['D', 'E', 'F']
+  elif digit == 4:
+    return ['G', 'H', 'I']
+  elif digit == 5:
+    return ['J', 'K', 'L']
+  elif digit == 6:
+    return ['M', 'N', 'O']
+
+
+def print_phone_strings(phone):
+
+    buffer =  [''] * len(phone)
+    print_phone_strings_helper(phone, buffer, 0, 0)
+
+def print_phone_strings_helper(phone, buffer, phone_index, buffer_index):
+
+  if buffer_index == len(buffer) or phone_index == len(phone):
+    print(''.join(buffer))
+    return 
+
+  chars =  get_chars(phone[phone_index])
+
+  if not chars:
+      print_phone_strings_helper(phone, buffer, phone_index + 1, buffer_index)
+
+  for char in chars:
+    buffer[buffer_index] = char
+    print_phone_strings_helper(phone, buffer, phone_index + 1, buffer_index+1)
+
+
+print_phone_strings([2,1,3])
+
+    
+
+
+def print_sets(a):
+
+  buffer = [0] * len(a)
+
+  print_sets_helper(a, buffer, 0, 0)
+
+def print_sets_helper(a, buffer, a_index, buffer_index):
+  
+  print(buffer[:buffer_index])
+
+  if buffer_index == len(buffer) or a_index == len(a):
+    return
+
+  for i in range(a_index, len(a)):
+    buffer[buffer_index] =  a[i]
+    print_sets_helper(a, buffer, i + 1, buffer_index +1)
+
+  
+print_sets([1,2,3])
+
+
+
+def print_perm(a,x):
+
+  buffer = [0] * x
+  is_buffer = [False] * len(a)
+  print_perm_helper(a, buffer, is_buffer, 0, 0)
+
+def print_perm_helper(a, buffer, is_buffer, a_index, buffer_index):
+
+  if buffer_index == len(buffer):
+    print(buffer)
+    return 
+
+  for i in range(len(a)):
+    if not is_buffer[i]:
+      buffer[buffer_index] = a[i]
+      is_buffer[i] = True
+      print_perm_helper(a, buffer, is_buffer, i+1, buffer_index+1)
+      is_buffer[i] = False
+
+print_perm([1,2,3], 2)
+      
+
+# array = 
+# [
+#   [0,1,1,1]
+#   [0,0,0,1]
+#   [1,0,0,1]
+#   [1,1,0,0]
+# ]
+
+# memo = 
+# [
+#   [UNVISTED],[UNVISTED],[UNVISTED],[UNVISTED]
+#   [UNVISTED],[UNVISTED],[UNVISTED],[UNVISTED]
+#   [UNVISTED],[UNVISTED],[UNVISTED],[UNVISTED]
+#   [UNVISTED],[UNVISTED],[UNVISTED],[UNVISTED]
+# ]
+
+class State:
+  UNVISITED = 0
+  VISITING = 1
+  NO_PATH = 2
+
+
+def find_path(array):
+  memo = []
+
+  for _ in range(len(array)):
+    row = []
+    for _ in range (len(array[0])):
+      row.append(State.UNVISITED)
+    memo.append(row)
+
+  print(find_path_helper(array, 0, 0, memo))
+
+
+
+def find_path_helper(array, i, j, memo):
+
+  if i < 0 or i >= len(array) or j < 0 or j >= len(array[0]):
+    return False
+
+  if array[i][j] == 1:
+    return False
+
+  if i == len(array) - 1 and j == len(array[0]) -1:
+    return True
+
+  if memo[i][j] == State.VISITING or memo[i][j] == State.NO_PATH:
+    return False
+
+  points = [
+    (i +1, j),
+    (i -1, j),
+    (i, j +1),
+    (i, j -1)
+  ]
+  
+  memo[i][j] = State.VISITING
+
+  for point in points:
+    if find_path_helper(array, point[0], point[1], memo):
+      return True
+  
+  memo[i][j] = State.NO_PATH
+  return False
+
+find_path( [[0,1,1,1],[0,0,0,1],[1,0,0,1],[1,1,0,0]])
+
+
+VALID_WORDS = ['i', 'like','man', 'mango', 'go', 'tan', 'tango']
+
+class State:
+  UNVISITED = 0
+  NOT_FOUND = 1
+
+def words_breaker(s):
+
+  memo = [State.UNVISITED] * len(s)
+  result = []
+
+  if words_breaker_helper(s, 0, memo, result):
+    return " ".join(result)
+
+def words_breaker_helper(s, start, memo, result):
+
+  if start == len(s):
+    return True
+
+  if memo[start] == State.NOT_FOUND:
+    return False
+
+  for i in range(start, len(s)):
+    candidate = s[start:i +1]
+    if candidate in VALID_WORDS:
+      result.append(candidate)
+      if words_breaker_helper(s, i+1, memo, result):
+        return True
+      else:
+        result.pop()
+        memo[i] = State.NOT_FOUND
+
+  return False
+
+print(words_breaker("ilikemangotango"))
+
