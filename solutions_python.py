@@ -2988,3 +2988,162 @@ def words_breaker_helper(s, start, memo, result):
 
 print(words_breaker("ilikemangotango"))
 
+
+
+def words_breaker(s):
+
+  memo = ['unvisited'] * len(s)
+  result = []
+  dict =  ['i', 'like', 'man', 'go', 'tan', 'go', 'mango', 'tango']
+
+  if words_breaker_helper(s, 0, memo, result, dict):
+    return ' '.join(result)
+
+def words_breaker_helper(s, start, memo, result, dict):
+
+  if start == len(s):
+    return True
+
+  if memo[start] == 'not_found':
+    return False
+
+  for i in range(start, len(s)):
+    candidate = s[start:i+1]
+    if candidate in dict:
+      result.append(candidate)
+      if words_breaker_helper(s, i +1, memo, result, dict):
+        return True
+      else:
+        result.pop()
+        memo[i] = 'not_found'
+
+  return False
+
+
+print(words_breaker("ilikemangotango"))
+
+
+def find_largest(numbers, x):
+
+  track = 0
+
+  for num in numbers:
+    if num < x and num > track:
+      track = num 
+
+  return track
+
+print(find_largest([1,90,3,5,95], 100))
+
+def is_panagram(string):
+
+  seen = set()
+  s = string.lower()
+
+  for char in s:
+
+    if char.isalpha() and char not in seen:
+      seen.add(char)
+
+  return len(seen) == 26
+
+print(is_panagram('The quick brown fox jumps over the lazy dog.'))
+
+
+def reverse_nums(nums):
+
+  start = 0
+  end = len(nums) -1
+  
+  while start <= end:
+    nums[start], nums[end] = nums[end], nums[start]
+    start += 1
+    end -=1
+
+  return nums
+
+print(reverse_nums([1,2,3]))
+
+
+
+def get_length(array):
+  if not array:
+    return 0
+ 
+  return 1 + get_length(array[1:])
+
+print(get_length([1,2,3,4,5,6]))
+
+
+def print_nums(n, x):
+
+  if n > x:
+    return 
+
+  print (n)
+  print_nums(n+1, x)
+
+
+print_nums(1, 5)
+
+
+def max_num(num):
+
+  curr_max = [0]
+ 
+  max_num_helper(num, 0, curr_max)
+  return curr_max
+  
+
+def max_num_helper(num, start, curr_max):
+
+  if start == len(num):
+    return
+
+  for i in range(start, len(num)):
+    if num[i] > curr_max[0]:
+      curr_max[0] = num[i]
+    max_num_helper(num, i+1, curr_max)
+     
+print(max_num([1,50,300,30]))
+
+
+
+
+def max_num(num):
+
+  curr_max = [0]
+ 
+  max_num_helper(num, 0, curr_max)
+  return curr_max[0]
+  
+
+def max_num_helper(num, start, curr_max):
+
+  if start == len(num):
+    return
+
+  for i in range(start, len(num)):
+    if num[i] > curr_max[0]:
+      curr_max[0] = num[i]
+    max_num_helper(num, i+1, curr_max)
+     
+print(max_num([1,50,300,30]))
+
+
+def doubled_nums(array):
+
+  result = []
+  doubled_nums_helper(array, 0, result)
+  return result 
+
+def doubled_nums_helper(array, start, result):
+
+  if start == len(array):
+    return 
+
+  for num in range(start, len(array)):
+    result.append(num*2)
+    doubled_nums_helper(array, start+1, result)
+
+print(doubled_nums([1,2,3,4]))
