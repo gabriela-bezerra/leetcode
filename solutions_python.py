@@ -3357,7 +3357,7 @@ print(count_islands(grid2))
 # ]
 # Output: 3
 
-#Input: grid = [
+# Input: grid = [
 #   ["0","0","0","0","0"],
 #   ["0","0","0","0","0"],
 #   ["0","0","1","0","0"],
@@ -3515,3 +3515,20 @@ def rearrange_zeroes(array):
 
 
 print(rearrange_zeroes([4,2,0,1,0,3,0]))
+
+
+def rearrange_array(array, pivot):
+  start = 0
+  end = len(array) - 1
+
+  while start <= end:
+    if array[start] > pivot:
+      array[start], array[end] = array[end], array[start]
+      end -= 1
+    if array[start] <= pivot:
+      start += 1
+
+  return array
+
+print(rearrange_array( [5,2,4,4,6,4,4,3], 4))
+
