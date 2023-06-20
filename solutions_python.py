@@ -3332,3 +3332,186 @@ grid2 = [
         ]
 
 print(count_islands(grid2))
+
+
+# Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+# An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+# Example 1:
+
+# Input: grid = [
+#   ["1","1","1","1","0"],
+#   ["1","1","0","1","0"],
+#   ["1","1","0","0","0"],
+#   ["0","0","0","0","0"]
+# ]
+# Output: 1
+
+
+# Input: grid2 = [
+#   ["1","1","0","0","0"],
+#   ["1","1","0","0","0"],
+#   ["0","0","1","0","0"],
+#   ["0","0","0","1","1"]
+# ]
+# Output: 3
+
+#Input: grid = [
+#   ["0","0","0","0","0"],
+#   ["0","0","0","0","0"],
+#   ["0","0","1","0","0"],
+#   ["0","0","0","0","0"]
+# ]
+# Output: 1
+
+# row = i
+# column = j
+
+class State:
+  UNVISITED = 0
+  VISITING = 1
+  VISITED = 2
+
+def count_islands(grid):
+
+  memo = []
+
+  for _ in range(len(grid)):
+    row = []
+    for _ in range( len(grid[0])):
+      row.append(State.UNVISITED)
+    memo.append(row)
+
+  count = 0
+
+  for i in range(len(grid)):
+    for j in range(len(grid[0])):
+      if grid[i][j] == "1" and memo[i][j] == State.UNVISITED:
+        count += 1
+        count_islands_helper(grid, i, j, memo)
+
+  return count
+
+
+def count_islands_helper(grid, i, j, memo):
+
+  if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]):
+    return
+
+  if grid[i][j] == "0":
+    return 
+
+  if memo[i][j] == State.VISITED or memo[i][j] == State.VISITING:
+    return
+
+  memo[i][j] = State.VISITING
+
+
+  points = [
+    (i + 1, j),
+    (i - 1, j),
+    (i, j + 1),
+    (i, j - 1),
+  ]
+
+  for point in points:
+    count_islands_helper(grid, point[0], point[1], memo)
+
+  memo[i][j] = State.VISITED
+    
+
+# grid = [
+#   ["0","0","0","0","0"],
+#   ["0","0","0","0","0"],
+#   ["0","0","1","0","0"],
+#   ["0","0","0","0","0"]
+# ]
+
+grid = [
+         ["1", "1", "0", "0", "0"], 
+         ["1", "1", "0", "0", "0"],
+         ["0", "0", "1", "0", "0"], 
+         ["0", "0", "0", "1", "1"]
+        ]
+
+print(count_islands(grid))
+
+
+
+
+
+def duplicate_even_numbers(array):
+
+  start = len(array) - 1
+  e = len(array) - 1
+
+  for i in range(e, -1,-1):
+    if array[i] != 0:
+      e = i
+      break
+
+  while e >= 0:
+    if array[e] % 2 == 0:
+      array[start] =  array[e]
+      start -= 1
+    array[start] =  array[e]
+    start -= 1
+    e -= 1
+
+  return array 
+
+print(duplicate_even_numbers([1,2,5,6,8,0,0,0]))
+
+
+def reverse_string(string):
+
+  words = string.split(" ")
+
+  start = 0
+  end = len(words) -1
+
+  while start <= end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+
+  return " ".join(words)
+
+
+print(reverse_string("i live in a house"))
+
+
+def find_sum(array,x):
+
+  start = 0
+  end = len(array) -1
+
+  while start <= end:
+    if array[start] + array[end] < x:
+      start +=1
+    if array[start] + array[end] > x:
+      end -= 1    
+    if array[start] + array[end] == x:
+      return array[start], array[end]
+      break 
+
+
+print(find_sum([1,2,3,4,5], 6))
+
+def rearrange_zeroes(array):
+
+  b = 0
+  track = 0
+
+  while track < len(array):
+    if array[track] == 0:
+      array[track], array[b] = array[b],array[track]
+      b += 1
+      track += 1
+    track +=1
+
+  return array
+
+
+print(rearrange_zeroes([4,2,0,1,0,3,0]))
