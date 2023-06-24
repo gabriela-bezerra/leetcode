@@ -7,8 +7,6 @@ def removeDuplicates(nums):
 
     """
 
-    # Two pointers approach
-
     current = 0
 
     for idx in range(len(nums)):
@@ -298,13 +296,11 @@ def multiply(a, b):
 
 def missingNumber(nums):
 
-    nums = set(nums)
+    set_nums = set(nums)
     l = len(nums) + 1
-    # for i in range (0, len(nums) +1):
-    #     count.add(i)
 
-    for n in (0, l):
-        if n not in nums:
+    for n in nums:
+        if n not in set_nums:
             return n
 
 
@@ -3532,3 +3528,226 @@ def rearrange_array(array, pivot):
 
 print(rearrange_array( [5,2,4,4,6,4,4,3], 4))
 
+
+
+# Tree
+
+
+# Traverse the binary Tree inorder, postorder and preorder.
+
+
+# BINARY TREE
+
+
+class Node:
+
+  def __init__(self, value, right=None, left=None):
+    self.value = value
+    
+    self.left = left
+    self.right = right
+    self.visited = False
+
+  def set_value(self, value):
+    self.value = value
+
+  def get_value(self):
+    return self.value
+
+  def set_right(self, right):
+    self.right = right
+
+  def get_right(self):
+    return self.right
+
+  def set_left(self, left):
+    self.left = left
+
+  def get_left(self):
+    return self.left 
+
+  def is_visited(self):
+    return self.visited
+
+
+  def set_visited(self):
+    self.visited = True
+
+
+
+
+# FUNCTIONS 
+
+
+def in_order_visit(n):
+  if n is None:
+    return 
+
+  in_order_visit(n.get_left())
+  print(n.get_value())
+  in_order_visit(n.get_right())              
+ 
+
+
+def pre_order_visit(n):
+  if n is None:
+    return
+
+  print(n.get_value())
+  pre_order_visit(n.get_left())
+  pre_order_visit(n.get_right())
+
+
+def post_order(n):
+  if n is None:
+    return
+
+  post_order(n.get_left())
+  post_order(n.get_right())
+  print(n.get_value())
+
+
+
+def in_order_interative(root):
+  if root is None:
+    return
+
+  stack = []
+  stack.append(root)
+
+  while stack:
+    node = stack.pop()
+
+    if node.is_visited():
+      print(node.get_value())
+    else:
+      node.set_visited(True)
+      if node.get_right() is not None:
+        stack.append(node.get_right())
+      print("stack inside", stack)
+      stack.append(node)
+      if node.get_left() is not None:
+        stack.append(node.get_left())
+
+
+
+def find_height(n):
+
+  if n == None:
+    return -1
+  
+  return 1 + max(find_height(n.get_left()), find_height(n.get_right()))
+
+
+
+
+def is_balanced_b(n):
+  return is_balanced(n) != -1
+
+def is_balanced(n):
+
+  if n == None:
+    return 0
+  
+  left_h = is_balanced(n.get_left())
+  right_h = is_balanced(n.get_right())
+
+  if left_h == -1 or right_h == -1:
+    return -1
+
+  if abs(left_h - right_h) > 1:
+    return -1
+
+  return 1 + max(left_h, right_h)
+
+
+
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+node6 = Node(6)
+node7 = Node(7)
+
+node1.set_left(node2)
+node1.set_right(node3)
+node2.set_left(node4)
+node2.set_right(node5)
+node3.set_left(node6)
+node6.set_right(node7)
+
+
+# in_order_visit(node1)
+# pre_order_visit(node1)
+# post_order(node1)
+
+
+# You are given two binary trees root1 and root2.
+
+# Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+# Return the merged tree.
+
+# Note: The merging process must start from the root nodes of both trees.
+
+# Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+# Output: [3,4,5,5,4,null,7]
+# Example 2:
+
+# Tree 1
+
+#     1
+#     /\
+#    3   2
+#   /  \
+# 5     None
+
+# Tree 2       
+#        2
+#        /\
+#       1    3
+#      / \     \
+# None    4      7
+  
+
+# result: tree 1
+#    3  
+#   /  \
+# 4      5
+# /\      \
+# 5  4      7
+
+# ______
+# Input: root1 = [1], root2 = [1,2]
+# Output: [2,2]
+
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BT:
+    def __init__(self,root):
+        self.root = root
+
+    
+def mergeTrees(root1, root2):
+    if root1 == None:
+      return root2
+      
+    if root2 == None:
+      return root1
+
+    # new_value =  root1.data + root2.data
+    # root1.data =  new_value
+    root1.data += root2.data
+    
+    root1.left = mergeTrees(root1.left, root2.left) 
+    root1.right = mergeTrees(root1.right, root2.right) 
+
+    return root1
+
+# Time: O(n)
+# Space: O(h)
