@@ -3751,3 +3751,54 @@ def mergeTrees(root1, root2):
 
 # Time: O(n)
 # Space: O(h)
+
+
+def merge_trees(root1, root2):
+
+  if root1 == None:
+    return root2
+
+  if root2 == None:
+    return root1
+
+  new_value = root1.data + root2.data
+  root1.data = new_value
+
+  root1.left = merge_trees(root1.left, root2.left)
+  root1.rigth = merge_trees(root1.right, root2.rigth)
+
+  return root1
+
+
+
+#  Find the height of a binary tree.
+
+# Remember: The Height of a binary tree is the Depth of the deepest node in the tree.
+
+def find_height(node, depth, max_depth):
+  if node == None:
+    return 
+
+  curr_depth = depth + 1
+  if curr_depth > max_depth:
+    max_depth = curr_depth
+    find_height(node.left, curr_depth, max_depth)
+    find_height(node.rigth, curr_depth, max_depth)
+
+  return max_depth
+
+
+def find_height(node, depth, max_depth):
+  if node == None:
+    return 
+
+  curr_depth = depth + 1
+  if curr_depth > max_depth:
+    max_depth = curr_depth
+  find_height(node.left, curr_depth, max_depth)
+  find_height(node.rigth, curr_depth, max_depth)
+    
+
+    
+
+  
