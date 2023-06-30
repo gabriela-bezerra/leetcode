@@ -3801,4 +3801,323 @@ def find_height(node, depth, max_depth):
 
     
 
-  
+  # Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1
+# Tree 1
+#    1
+#  /     \
+# 2       3
+
+# Tree 2
+#    1
+#  /     \
+# 2       3
+
+#returns true#
+# ______
+# Example 2
+
+# Tree 1
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1       2
+
+
+
+# returns false
+
+
+def check_trees(p, q):
+    if p == None and q == None:
+        return True 
+
+    if p == None or q == None:
+        return False 
+      
+    if p.value != q.value:
+        return False
+      
+    return check_trees(p.left, q.left) and check_trees(p.right, q.right) 
+
+    
+
+
+
+
+# Tree 1 
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1        2
+
+#  f(1,1) ->
+# /       \
+# f(3,3) - true  f(2,1) - False
+
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1
+# Tree 1
+#    1
+#  /     \
+# 2       3
+
+# Tree 2
+#    1
+#  /     \
+# 2       3
+
+#returns true#
+# ______
+# Example 2
+
+# Tree 1
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1       2
+
+
+
+# returns false
+
+
+def check_trees(p, q):
+    if p == None and q == None:
+        return True 
+
+    if p == None or q == None:
+        return False 
+      
+    if p.value != q.value:
+        return False
+      
+    return check_trees(p.left, q.left) and check_trees(p.right, q.right) 
+
+    
+
+
+
+
+# Tree 1 
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1        2
+
+#  f(1,1) ->
+# /       \
+# f(3,3) - true  f(2,1) - False
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1
+# Tree 1
+#    1
+#  /     \
+# 2       3
+
+# Tree 2
+#    1
+#  /     \
+# 2       3
+
+#returns true#
+# ______
+# Example 2
+
+# Tree 1
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1       2
+
+
+
+# returns false
+
+
+def check_trees(p, q):
+    if p == None and q == None:
+        return True 
+
+    if p == None or q == None:
+        return False 
+      
+    if p.value != q.value:
+        return False
+      
+    return check_trees(p.left, q.left) and check_trees(p.right, q.right) 
+
+    
+
+
+
+
+# Tree 1 
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1        2
+
+#  f(1,1) ->
+# /       \
+# f(3,3) - true  f(2,1) - False
+
+
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1
+# Tree 1
+#    1
+#  /     \
+# 2       3
+
+# Tree 2
+#    1
+#  /     \
+# 2       3
+
+#returns true#
+# ______
+# Example 2
+
+# Tree 1
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1       2
+
+
+
+# returns false
+
+
+def check_trees(p, q):
+    if p == None and q == None:
+        return True 
+
+    if p == None or q == None:
+        return False 
+      
+    if p.value != q.value:
+        return False
+      
+    return check_trees(p.left, q.left) and check_trees(p.right, q.right) 
+
+    
+
+
+
+
+# Tree 1 
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1        2
+
+#  f(1,1) ->
+# /       \
+# f(3,3) - true  f(2,1) - False
+
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+# Example 1
+# Tree 1
+#    1
+#  /     \
+# 2       3
+
+# Tree 2
+#    1
+#  /     \
+# 2       3
+
+#returns true#
+# ______
+# Example 2
+
+# Tree 1
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1       2
+
+
+
+# returns false
+
+
+def check_trees(p, q):
+    if p == None and q == None:
+        return True 
+
+    if p == None or q == None:
+        return False 
+      
+    if p.value != q.value:
+        return False
+      
+    return check_trees(p.left, q.left) and check_trees(p.right, q.right) 
+
+    
+
+
+
+
+# Tree 1 
+#    1
+#  /   \
+# 2      1 
+
+# Tree 2
+#    1
+#  /     \
+# 1        2
+
+#  f(1,1) ->
+# /       \
+# f(3,3) - true  f(2,1) - False
+
