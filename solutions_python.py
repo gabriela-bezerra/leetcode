@@ -4121,3 +4121,135 @@ def check_trees(p, q):
 # /       \
 # f(3,3) - true  f(2,1) - False
 
+
+
+def remove_duplicates(numbers):
+
+  curr = 0
+
+  for i in range(len(numbers)):
+    if numbers[i] != numbers[curr]:
+      curr += 1
+      numbers[curr] = numbers[i]
+
+  return numbers[:curr + 1] 
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,4,4]))
+
+
+def max_profit(prices):
+  max_profit = 0
+
+  for i in range(1, len(prices)):
+    print("profit::", max_profit)
+    print('i::', prices[i], "-" ,"i-1::", prices[i-1])
+    if prices[i] - prices[i-1] > 0:
+      max_profit += prices[i] - prices[i-1]
+
+
+  return max_profit
+
+print(max_profit([7,1,5,3,6,4]))
+
+
+def duplicate_even_numbers(nums):
+
+  e = len(nums) - 1
+  s = len(nums) - 1
+
+  for i in range (e, -1, -1):
+    if nums[i] != None:
+      s = i
+      break 
+
+  while e >= 0:
+    if nums[s] % 2 == 0:
+      nums[e] = nums[s]
+      e -= 1
+    nums[e] = nums[s]
+    e -= 1
+    s -= 1
+
+  return nums
+
+print(duplicate_even_numbers([1,2,5,6,8,None, None, None]))
+    
+
+def reverse_array(nums):
+
+  start = 0
+  end = len(nums) - 1
+
+  while start < end:
+    nums[start], nums[end] = nums[end], nums[start]
+    start += 1
+    end -= 1
+
+  return nums
+
+
+print(reverse_array([1,2,3,4,5,6,6]))
+
+# A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+# Given a string s, return true if it is a palindrome, or false otherwise.
+
+
+# Example 1:
+
+# Input: s = "A man, a plan, a canal: Panama"
+# Output: true
+# Explanation: "amanaplanacanalpanama" is a palindrome.
+# Example 2:
+
+# Input: s = ":(start):::race a car(end)"
+# Output: false
+# Explanation: "raceacar" is not a palindrome.
+# Example 3:
+
+# Input: s = " "
+# Output: true
+# Explanation: s is an empty string "" after removing non-alphanumeric characters.
+# Since an empty string reads the same forward and backward, it is a palindrome.
+
+# "raceacar"
+# "amanaplanacanalpanama"
+
+#  s = "A man, a plan, a canal: Panama"
+
+
+def is_palindrome(string):
+
+  start = 0
+  end = len(string) - 1
+
+  while start < end:
+    
+    while start < end and not string[start].isalpha():
+      start += 1
+    while start < end and not string[end].isalpha():
+      end -= 1    
+
+    if string[start].lower() != string[end].lower():
+        return False
+    start += 1
+    end -= 1
+    
+  return True
+
+print(is_palindrome("A man, a plan, a canal: Panama!"))
+    
+
+def move_zeroes(array):
+
+  b = 0
+
+  for i in range(len(array)):
+    if array[i] == 0:
+      array[b], array[i] = array[i], array[b]
+      b += 1
+
+  return array
+
+print(move_zeroes([4,2,0,1,0,3,0]))
