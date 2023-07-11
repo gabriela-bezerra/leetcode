@@ -4253,3 +4253,28 @@ def move_zeroes(array):
   return array
 
 print(move_zeroes([4,2,0,1,0,3,0]))
+
+
+
+def print_combos(array, x):
+
+  buffer = [0] * x
+
+  print_combos_helper(array, buffer, 0, 0)
+
+def print_combos_helper(array, buffer, array_index, buffer_index):
+
+  if buffer_index >= len(buffer):
+    print(buffer)
+    return 
+    
+  if array_index >= len(array):
+    return 
+
+
+  for i in range(array_index, len(array)):
+    buffer[buffer_index] =  array[i]
+    print_combos_helper(array, buffer, i + 1, buffer_index + 1)
+
+
+print_combos([1,2,3,4,5,6,7], 3)
