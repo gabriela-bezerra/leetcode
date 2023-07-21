@@ -4341,3 +4341,57 @@ def single_number(array):
   
 
 print(single_number([0,0,1,1,2,3,4,4]))
+
+
+
+# Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+#      3
+#    /    \
+#  9       20
+# /\        /\
+# 16  17    15  7
+# [[3],[9,20],[15,7]]
+
+[]
+q = [16,17, 15,7]
+level = [16,17, 15,7]
+next_level =[9,20]
+# 1
+
+# [[1]]
+
+# null 
+# []
+
+# breadth first search  
+# 1. pop queue = Node
+# 2. find the node's children
+# 3. add the left, right to the queue 
+# keep doing until no more children -> queue
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+
+
+    
+    
+
+    
