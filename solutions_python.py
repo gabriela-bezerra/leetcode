@@ -4278,3 +4278,66 @@ def print_combos_helper(array, buffer, array_index, buffer_index):
 
 
 print_combos([1,2,3,4,5,6,7], 3)
+
+
+def remove_duplicates(array):
+
+  track = 0
+
+  for i in range(len(array)):
+    if array[track] != array[i]:
+      track += 1
+      array[track] = array[i]
+    
+  return array[:track+1]
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,3,4]))
+
+
+def remove_duplicates(array):
+
+  track = 0
+
+  for i in range(len(array)):
+    if array[track] != array[i]:
+      track += 1
+      array[track] = array[i]
+    
+  return array[:track+1]
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,3,4]))
+
+
+def contain_duplicates(array):
+
+  seen = set()
+
+  for i in range(len(array)):
+    if array[i] in seen:
+      return True
+    seen.add(array[i])
+
+  return False
+
+print(contain_duplicates([0, 1, 2,3, 4, 5]))
+
+
+def single_number(array):
+
+  map =  {}
+
+  for num in array:
+    if num not in map:
+      map[num] = 1
+    else:
+      map[num] += 1
+
+
+  for i in range(len(array)):
+    if map[array[i]] == 1:
+      return array[i]
+
+  return "None Found"
+  
+
+print(single_number([0,0,1,1,2,3,4,4]))
