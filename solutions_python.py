@@ -4389,9 +4389,422 @@ def traverse_levels(root):
 
         
         
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
 
 
     
-    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
 
     
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+    while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+    return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
