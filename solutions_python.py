@@ -4808,3 +4808,130 @@ print(result)  # Output: 1
   
 
   
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
