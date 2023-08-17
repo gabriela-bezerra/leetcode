@@ -4935,3 +4935,29 @@ def majority_elements(nums):
 print(majority_elements([2,2,1,1,1,2,2]))
 
 
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
