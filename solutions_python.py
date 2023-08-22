@@ -5012,3 +5012,33 @@ print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
 # Time: O nxn => (n^2), mxn
 # Space: O(1)       
         
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(self, nums: List[int]) -> bool:
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
