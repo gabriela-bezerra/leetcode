@@ -5032,7 +5032,7 @@ def buy_sell_stock(prices):
 print(buy_sell_stock([7,1,5,3,6,4]))
 
 
-def canJump(self, nums: List[int]) -> bool:
+def canJump(nums):
     n = len(nums)
     rightmost = 0
 
@@ -5042,3 +5042,53 @@ def canJump(self, nums: List[int]) -> bool:
         rightmost = max(rightmost, i + nums[i])
 
     return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
