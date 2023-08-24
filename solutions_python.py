@@ -4714,13 +4714,12 @@ if __name__ == "__main__":
 
 
 
-
 def clone_graph(node):
  
   queue = [node]
   nodes_seen = {node: Node(node.value, [])}
 
-    while queue:
+  while queue:
         n = queue.pop(0)
         for neighbor in n.neighbors:
             if neighbor not in nodes_seen:
@@ -4735,7 +4734,7 @@ def clone_graph(node):
             # cloning neighbors 
             new_node.neighbors.append(new_neighbor)
 
-    return nodes_seen[node]
+  return nodes_seen[node]
 
     
 
@@ -4752,7 +4751,7 @@ def clone_graph(node):
 #     self.neighbors = [Nod(2),Node(4), Node(5)] 
 
 
-https://leetcode.com/problems/clone-graph/editorial/
+# https://leetcode.com/problems/clone-graph/editorial/
   
 
   
@@ -5092,3 +5091,35 @@ def lengthOfLastWord(s):
 
 
 print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
