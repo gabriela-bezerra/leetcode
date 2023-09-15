@@ -5123,3 +5123,156 @@ print(find_prefix(["flower","flow","flight"]))
                 return i
 
         return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
