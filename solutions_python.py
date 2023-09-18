@@ -5276,3 +5276,55 @@ def check_bst(root, lo = float('-inf'), hi = float('inf')):
 
 # time: O(n)
 # space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
