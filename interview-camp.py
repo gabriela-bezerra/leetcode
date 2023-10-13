@@ -86,3 +86,24 @@ def find_sum(array, x):
 
 
 print(find_sum([1, 2, 3, 4, 5], 9))
+
+# You are given an array of integers. Rearrange the array so that all zeroes are at the beginning of the array.
+# For example, [4,2,0,1,0,3,0] -> [0,0,0,4,1,2,3]
+
+
+def move_zeroes(array):
+
+    fast, slow = 0, 0
+
+    while fast < len(array):
+
+        if array[fast] == 0:
+            array[slow], array[fast] = array[fast], array[slow]
+            slow += 1
+
+        fast += 1
+
+    return array
+
+
+print(move_zeroes([4, 2, 0, 1, 0, 3, 0]))
