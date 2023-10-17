@@ -5347,3 +5347,52 @@ class Solution:
                 count += 1
 
         return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
