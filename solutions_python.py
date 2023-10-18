@@ -5399,34 +5399,35 @@ print(solution.maxPathSum(root))  # Expected: 47
 
 
 from collections import deque
+from collections import deque
 
 def wallsAndGates(rooms):
-  if not rooms:
-      return
+    if not rooms:
+        return
 
-  INF = 2147483647
-  rows, cols = len(rooms), len(rooms[0])
-  directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-  queue = deque()
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
 
-  # Add all gates to the queue
-  for i in range(rows):
-      for j in range(cols):
-          if rooms[i][j] == 0:
-              queue.append((i, j))
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
 
-  # BFS
-  while queue:
-      r, c = queue.popleft()
-      for dr, dc in directions:
-          nr, nc = r + dr, c + dc
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
 
-          if 0 <= nr < rows and 0 <= nc < cols and rooms[nr][nc] == INF:
-              rooms[nr][nc] = rooms[r][c] + 1
-              queue.append((nr, nc))
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
 
 # Test
 rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
 wallsAndGates(rooms)
 for row in rooms:
-  print(row)
+    print(row)
