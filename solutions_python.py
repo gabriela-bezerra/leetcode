@@ -5396,3 +5396,37 @@ root.right.right = TreeNode(15)
 
 solution = Solution()
 print(solution.maxPathSum(root))  # Expected: 47
+
+
+from collections import deque
+
+def wallsAndGates(rooms):
+  if not rooms:
+      return
+
+  INF = 2147483647
+  rows, cols = len(rooms), len(rooms[0])
+  directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+  queue = deque()
+
+  # Add all gates to the queue
+  for i in range(rows):
+      for j in range(cols):
+          if rooms[i][j] == 0:
+              queue.append((i, j))
+
+  # BFS
+  while queue:
+      r, c = queue.popleft()
+      for dr, dc in directions:
+          nr, nc = r + dr, c + dc
+
+          if 0 <= nr < rows and 0 <= nc < cols and rooms[nr][nc] == INF:
+              rooms[nr][nc] = rooms[r][c] + 1
+              queue.append((nr, nc))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+  print(row)
