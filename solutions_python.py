@@ -18,6 +18,21 @@ def removeDuplicates(nums):
 # time complexity - O(n) because uses a single loop
 
 
+def remove_duplicates(array):
+
+    b = 0
+
+    for i in range(len(array)):
+      if array[i] != array[b]:
+        b += 1
+        array[b] = array[i]
+
+    return array[:b+1]
+
+
+print(remove_duplicates([0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 4]))
+
+
 def maxProfit(prices):
     """ Finds best time to buy and sell stock """
 
@@ -66,6 +81,22 @@ def containsDuplicate(nums):
 # time complexity - O(n)
 
 
+def contains_duplicate(nums):
+
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      seen.add(nums[i])
+    else:
+      return True
+
+  return False
+
+
+print(contains_duplicate([0, 1, 2, 3]))
+
+
 def singleNumber(nums):
     counts = {}
 
@@ -80,6 +111,26 @@ def singleNumber(nums):
             return num
 
 # time complexity - O(n)
+
+
+def single_number(array):
+
+  dict = {}
+
+  for i in range(len(array)):
+    if array[i] not in dict:
+      dict[array[i]] = 1
+    else:
+      dict[array[i]] += 1
+
+  for num, count in dict.items():
+    if count == 1:
+      return num
+
+  return ('Nothing found')
+
+
+print(single_number([0, 0, 0]))
 
 
 def intersect(nums1, nums2):
