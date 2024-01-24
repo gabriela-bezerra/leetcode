@@ -5449,6 +5449,9 @@ solution = Solution()
 print(solution.maxPathSum(root))  # Expected: 47
 
 
+
+
+
 from collections import deque
 from collections import deque
 
@@ -5482,3 +5485,47 @@ rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[214
 wallsAndGates(rooms)
 for row in rooms:
     print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
