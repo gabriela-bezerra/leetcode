@@ -5529,3 +5529,5556 @@ def findSignatureCounts(arr):
 # Example usage
 print(findSignatureCounts([2, 1]))  # Output: [2, 2]
 print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
+
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
+
+
+    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+    
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+  while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+  return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+# https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
+
+
+# You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i^th customer has in the j^th bank. Return the wealth that the richest customer has.
+
+# A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+# Input: accounts = [
+# [1,2,3]
+# [3,2,1]
+# ]
+# Output: 6
+# Explanation:
+# 1st customer has wealth = 1 + 2 + 3 = 6
+# 2nd customer has wealth = 3 + 2 + 1 = 6
+# Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+# Example 2:
+# Input: accounts = [
+# [1,5]
+# [7,3],
+# [3,5]
+# ]
+# Output: 10
+# Explanation: 
+# 1st customer has wealth = 6
+# 2nd customer has wealth = 10 
+# 3rd customer has wealth = 8
+# The 2nd customer is the richest with a wealth of 10.
+
+
+# Example 3:
+# Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+# Output: 17
+
+def find_maximum_wealth(accounts):
+
+    max_wealth = 0
+
+    for i in range(len(accounts)):
+      curr_sum = 0
+      for j in range(len(accounts[0])):
+        curr_sum += accounts[i][j]
+      max_wealth = max(max_wealth, curr_sum)
+
+    return max_wealth
+
+print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
+
+# Time: O nxn => (n^2), mxn
+# Space: O(1)       
+        
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(nums):
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
+
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+
+        count = 0
+
+        for word in words:
+            consistent = True
+            for char in word:
+                if char not in allowed_set:
+                    consistent = False
+                    break
+
+            if consistent == True:
+                count += 1
+
+        return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
+
+
+
+
+
+from collections import deque
+from collections import deque
+
+def wallsAndGates(rooms):
+    if not rooms:
+        return
+
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
+
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
+
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
+
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+    print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
+
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
+
+
+    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+    
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+  while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+  return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+# https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
+
+
+# You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i^th customer has in the j^th bank. Return the wealth that the richest customer has.
+
+# A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+# Input: accounts = [
+# [1,2,3]
+# [3,2,1]
+# ]
+# Output: 6
+# Explanation:
+# 1st customer has wealth = 1 + 2 + 3 = 6
+# 2nd customer has wealth = 3 + 2 + 1 = 6
+# Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+# Example 2:
+# Input: accounts = [
+# [1,5]
+# [7,3],
+# [3,5]
+# ]
+# Output: 10
+# Explanation: 
+# 1st customer has wealth = 6
+# 2nd customer has wealth = 10 
+# 3rd customer has wealth = 8
+# The 2nd customer is the richest with a wealth of 10.
+
+
+# Example 3:
+# Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+# Output: 17
+
+def find_maximum_wealth(accounts):
+
+    max_wealth = 0
+
+    for i in range(len(accounts)):
+      curr_sum = 0
+      for j in range(len(accounts[0])):
+        curr_sum += accounts[i][j]
+      max_wealth = max(max_wealth, curr_sum)
+
+    return max_wealth
+
+print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
+
+# Time: O nxn => (n^2), mxn
+# Space: O(1)       
+        
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(nums):
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
+
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+
+        count = 0
+
+        for word in words:
+            consistent = True
+            for char in word:
+                if char not in allowed_set:
+                    consistent = False
+                    break
+
+            if consistent == True:
+                count += 1
+
+        return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
+
+
+
+
+
+from collections import deque
+from collections import deque
+
+def wallsAndGates(rooms):
+    if not rooms:
+        return
+
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
+
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
+
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
+
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+    print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
+
+
+    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+    
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+  while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+  return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+# https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
+
+
+# You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i^th customer has in the j^th bank. Return the wealth that the richest customer has.
+
+# A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+# Input: accounts = [
+# [1,2,3]
+# [3,2,1]
+# ]
+# Output: 6
+# Explanation:
+# 1st customer has wealth = 1 + 2 + 3 = 6
+# 2nd customer has wealth = 3 + 2 + 1 = 6
+# Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+# Example 2:
+# Input: accounts = [
+# [1,5]
+# [7,3],
+# [3,5]
+# ]
+# Output: 10
+# Explanation: 
+# 1st customer has wealth = 6
+# 2nd customer has wealth = 10 
+# 3rd customer has wealth = 8
+# The 2nd customer is the richest with a wealth of 10.
+
+
+# Example 3:
+# Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+# Output: 17
+
+def find_maximum_wealth(accounts):
+
+    max_wealth = 0
+
+    for i in range(len(accounts)):
+      curr_sum = 0
+      for j in range(len(accounts[0])):
+        curr_sum += accounts[i][j]
+      max_wealth = max(max_wealth, curr_sum)
+
+    return max_wealth
+
+print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
+
+# Time: O nxn => (n^2), mxn
+# Space: O(1)       
+        
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(nums):
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
+
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+
+        count = 0
+
+        for word in words:
+            consistent = True
+            for char in word:
+                if char not in allowed_set:
+                    consistent = False
+                    break
+
+            if consistent == True:
+                count += 1
+
+        return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
+
+
+
+
+
+from collections import deque
+from collections import deque
+
+def wallsAndGates(rooms):
+    if not rooms:
+        return
+
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
+
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
+
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
+
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+    print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
+
+
+    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+    
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+  while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+  return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+# https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
+
+
+# You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i^th customer has in the j^th bank. Return the wealth that the richest customer has.
+
+# A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+# Input: accounts = [
+# [1,2,3]
+# [3,2,1]
+# ]
+# Output: 6
+# Explanation:
+# 1st customer has wealth = 1 + 2 + 3 = 6
+# 2nd customer has wealth = 3 + 2 + 1 = 6
+# Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+# Example 2:
+# Input: accounts = [
+# [1,5]
+# [7,3],
+# [3,5]
+# ]
+# Output: 10
+# Explanation: 
+# 1st customer has wealth = 6
+# 2nd customer has wealth = 10 
+# 3rd customer has wealth = 8
+# The 2nd customer is the richest with a wealth of 10.
+
+
+# Example 3:
+# Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+# Output: 17
+
+def find_maximum_wealth(accounts):
+
+    max_wealth = 0
+
+    for i in range(len(accounts)):
+      curr_sum = 0
+      for j in range(len(accounts[0])):
+        curr_sum += accounts[i][j]
+      max_wealth = max(max_wealth, curr_sum)
+
+    return max_wealth
+
+print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
+
+# Time: O nxn => (n^2), mxn
+# Space: O(1)       
+        
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(nums):
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
+
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+
+        count = 0
+
+        for word in words:
+            consistent = True
+            for char in word:
+                if char not in allowed_set:
+                    consistent = False
+                    break
+
+            if consistent == True:
+                count += 1
+
+        return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
+
+
+
+
+
+from collections import deque
+from collections import deque
+
+def wallsAndGates(rooms):
+    if not rooms:
+        return
+
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
+
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
+
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
+
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+    print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
+def traverse_levels(root):
+    # track of nodes we are going to visit
+    q = [root]
+    # level is keeping track of the level we are at 
+    visited = []
+    while q:
+        visited.append(node.data for node in q)
+        next_level = []
+        for node in level:
+            if node.left:
+                next_level.append(node.left)
+            if node.right:
+                next_level.append(node.right)
+
+        q = next_level
+    
+    return visited 
+
+        
+        
+def dfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and dfs_visit(node, target):
+            return True
+    return False
+
+def dfs_visit(node, target):
+    node.set_state(State.VISITING)
+    if node.get_data() == target:
+        return True
+    for neighbor in node.get_neighbors():
+        if neighbor.get_state() == State.UNVISITED and dfs_visit(neighbor, target):
+            return True
+    node.set_state(State.VISITED)
+    return False
+
+from enum import Enum
+
+class State(Enum):
+    UNVISITED = 1
+    VISITING = 2
+    VISITED = 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.state = State.UNVISITED
+        self.neighbors = []
+
+    def get_data(self):
+        return self.data
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_state(self):
+        return self.state
+
+    def set_state(self, state):
+        self.state = state
+
+    def add_neighbor(self, node):
+        self.neighbors.append(node)
+
+    def get_neighbors(self):
+        return self.neighbors
+
+class Graph:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def get_nodes(self):
+        return self.nodes
+
+
+def clone_graph(root):
+    if not root:
+        return None
+
+    node_map = {}
+    root_copy = Node(root.get_data())
+    node_map[root] = root_copy
+    dfs_visit(root, node_map)
+
+    return root_copy
+
+def dfs_visit(node, node_map):
+    node.set_state(State.VISITING)
+    for neighbor in node.get_neighbors():
+        if neighbor not in node_map:
+            neighbor_copy = Node(neighbor.get_data())
+            node_map[neighbor] = neighbor_copy
+
+        node_copy = node_map[node]
+        neighbor_copy = node_map[neighbor]
+        node_copy.add_neighbor(neighbor_copy)
+
+        if neighbor.get_state() == State.UNVISITED:
+            dfs_visit(neighbor, node_map)
+
+    node.set_state(State.VISITED)
+
+
+def bfs(graph, target):
+    for node in graph.get_nodes():
+        if node.get_state() == State.UNVISITED and bfs_visit(node, target):
+            return True
+    return False
+
+def bfs_visit(start, target):
+    queue = deque()
+    queue.append(start)
+    start.set_state(State.VISITING)
+
+    while queue:
+        current = queue.popleft()
+        if current.get_data() == target:
+            return True
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                queue.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+    return False
+
+
+def print_levels(root):
+    current_level = deque()
+    next_level = deque()
+    current_level.append(root)
+    root.set_state(State.VISITING)
+
+    while current_level:
+        current = current_level.popleft()
+        print(current.get_data(), end=" ")
+
+        for neighbor in current.get_neighbors():
+            if neighbor.get_state() == State.UNVISITED:
+                next_level.append(neighbor)
+                neighbor.set_state(State.VISITING)
+
+        current.set_state(State.VISITED)
+
+        if not current_level:
+            print()  # Move to the next line for the next level
+            current_level = next_level
+            next_level = deque()
+
+
+from collections import deque
+
+def word_ladder(start, end):
+    queue = deque()
+    visited_words = {}  # {word -> depth}
+
+    queue.append(start)
+    visited_words[start] = 0  # depth = 0
+
+    while queue:
+        current = queue.popleft()
+
+        if current == end:
+            return visited_words[current]
+
+        neighbors = get_neighbors(current)
+
+        for neighbor in neighbors:
+            if neighbor not in visited_words:
+                queue.append(neighbor)
+                visited_words[neighbor] = visited_words[current] + 1
+
+    return -1
+
+# Helper function to get neighbors of a word
+def get_neighbors(word):
+    # Implement your own function to get valid neighbors for a given word
+    # It should return a list of words that can be transformed from the given word
+    # For example, if the word is "hit", valid neighbors can be ["hot", "hat", "lit"]
+    pass
+
+
+    
+
+
+# strrates is a string with delimited list of numbers this list can be arbitrary length. The pattern of this list id:
+# Rate1 "," Price 1,1 "," Raten "," Price1,n ":L" LockPeriod1 " ;" Rate2 "," Pricem,2 ","... Raten "," Pricem,n ":L" LockPeriodm ","
+
+# The objective of the Program is to transform this string into the following two-dimensional matrix and display it as an html page. So the output should look like this:
+
+#          Lockı       Lock2        Lock3
+# Rate1    Price1,1    Price2,1     Price3,1
+# Rate2    Price1,2    Price2,2     Price3,2
+# Rate3    Price1,3    Price2,3     Price3,3 
+
+# INPUT: 
+# "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+
+# OUTPUT:
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+    
+
+    def transform_str_to_matrix(str_rates):
+    # Step 1: Parse the delimited string and create the matrix
+    rows = str_rates.split(';')
+    matrix = []
+    for row in rows:
+        items = row.split(',')
+        matrix.append(items)
+
+    # Step 2: Display the matrix as an HTML table
+    html_table = "<table>"
+    for row in matrix:
+        html_table += "<tr>"
+        for item in row:
+            html_table += f"<td>{item.strip()}</td>"
+        html_table += "</tr>"
+    html_table += "</table>"
+
+    return html_table
+
+
+# Example usage:
+str_rates = "Lockm, Rate, Rate2, Rate3; Lockı, Price1,1, Price1,2, Price1,3; Lock2, Price2,1, Price2,2, Price2,3; Lock3, Price3,1, Price3,2, Price3,3; Pricem,1, Pricem,2, Pricem,3, Pricem,n, Pricez,n, Price3, Price1,n; Raten"
+output_table = transform_str_to_matrix(str_rates)
+print(output_table)
+
+
+def parse_input(input_str):
+    # Split the input string into individual rate, price, and lock period segments
+    segments = input_str.split(":")
+    
+    # Extract rates, prices, and lock periods
+    rates = []
+    prices = []
+    lock_periods = []
+    
+    for segment in segments:
+        rate_price_pairs, lock_period = segment.split(";")
+        rate_price_pairs = rate_price_pairs.split(",")
+        lock_period = lock_period[1:]  # Remove the 'L' prefix from lock period
+        
+        rates.extend(rate_price_pairs[::2])  # Get odd-indexed elements (rates)
+        prices.append(rate_price_pairs[1::2])  # Get even-indexed elements (prices)
+        lock_periods.append(lock_period)
+    
+    return rates, prices, lock_periods
+
+def create_table_html(rates, prices, lock_periods):
+    html = "<table>\n"
+    
+    # Header row with lock periods
+    html += "<tr>\n<th>Lock</th>\n"
+    for lock_period in lock_periods:
+        html += f"<th>{lock_period}</th>\n"
+    html += "</tr>\n"
+    
+    # Data rows with rates and prices
+    for i, rate in enumerate(rates):
+        html += f"<tr>\n<td>{rate}</td>\n"
+        for price in prices[i]:
+            html += f"<td>{price}</td>\n"
+        html += "</tr>\n"
+    
+    html += "</table>"
+    return html
+
+if __name__ == "__main__":
+    input_str = "5.0,100,5.5,101,6.0,102:L10;5.0,99,5.5,100,6.0,101:L20"
+    rates, prices, lock_periods = parse_input(input_str)
+    table_html = create_table_html(rates, prices, lock_periods)
+    print(table_html)
+
+
+ INPUT: 
+# price = "5.0,100,5.5,101,6.0,102:L10;
+# new_price = "5.0,99,5.5,100,6.0,101:L20"
+
+# matrix = [["", 10, 20], 5.0, 100, 99]]
+# row = []
+
+# iterate via length of the array 
+    if #we know if it's a price if there is a period or even index
+        add rate
+    else:
+        add price
+
+    # [5.0, 100, 99]
+
+# O(n^2)
+
+# matrix = [["", "10", "20"],]
+# print(matrix)
+
+# OUTPUT:
+# rate  #price  #new rate
+#       10     20
+# 5.0   100    99
+# 5.5   101    100
+# 6.0   102    101
+
+
+
+# Given a reference of a node in a connected undirected graph.
+# Return a deep copy (clone) of the graph.
+
+# Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
+
+# class Node:
+#    self.val = val 
+#    self.neighbors = []
+    # self.visited = None
+
+# value = 1
+# neighbors = [Node(2, [1,3]), 4 [3,1]]
+
+# 5 
+# | 
+# |
+# |
+# 1-------- 2
+# |         | [1,3]
+# |         |
+# |         |
+# |         |
+# 4---------3
+
+# class Node:
+#     self.val = 2
+#     self.val = []
+
+
+# output = #cloned version of input node
+
+
+
+def clone_graph(node):
+ 
+  queue = [node]
+  nodes_seen = {node: Node(node.value, [])}
+
+  while queue:
+        n = queue.pop(0)
+        for neighbor in n.neighbors:
+            if neighbor not in nodes_seen:
+                queue.append(neighbor) 
+                         # node          #new node
+                nodes_seen[neighbor] = Node(neighbor.value, [])
+
+            
+            new_node = nodes_seen[n]
+            new_neighbor = nodes_seen[neighbor]
+            
+            # cloning neighbors 
+            new_node.neighbors.append(new_neighbor)
+
+  return nodes_seen[node]
+
+    
+
+
+
+      
+
+      
+
+
+
+# class Node:
+#     self.val = val 
+#     self.neighbors = [Nod(2),Node(4), Node(5)] 
+
+
+# https://leetcode.com/problems/clone-graph/editorial/
+  
+
+  
+def sockMerchant(n, ar):
+    sock_count = {}
+    for sock_color in ar:
+        if sock_color in sock_count:
+            sock_count[sock_color] += 1
+        else:
+            sock_count[sock_color] = 1
+    
+    pairs = 0
+    for count in sock_count.values():
+        pairs += count // 2
+    
+    return pairs
+
+# Example usage:
+n = 9
+ar = [10, 20, 20, 10, 10, 30, 50, 10, 20]
+result = sockMerchant(n, ar)
+print(result)  # Output: 3
+
+
+
+
+def countingValleys(steps, path):
+    level = 0  # Current altitude level
+    valleys = 0  # Number of valleys traversed
+    in_valley = False  # Flag to indicate if the hiker is in a valley
+
+    for step in path:
+        if step == 'U':
+            level += 1
+        else:
+            level -= 1
+
+        # Check if the hiker entered or left a valley
+        if step == 'U' and level == 0:
+            in_valley = False
+        elif step == 'D' and level < 0 and not in_valley:
+            in_valley = True
+            valleys += 1
+
+    return valleys
+
+# Example usage:
+steps = 8
+path = "UDDDUDUU"
+result = countingValleys(steps, path)
+print(result)  # Output: 1
+
+  
+
+  
+def merge_arrays(nums1, n, nums2, m):
+
+      p_h = len(nums1) - 1
+      p_one = n - 1
+      p_two = m -1
+
+      while p_one >= 0 and p_two >= 0:
+        if nums1[p_one] >= nums2[p_two]:
+          nums1[p_h] = nums1[p_one]
+          p_one -= 1
+        else:
+          nums1[p_h] = nums2[p_two]
+          p_two -= 1
+        p_h -= 1
+
+      return nums1
+
+print(merge_arrays([1,2,3,0,0,0], 3, [2,5,6], 3))
+
+
+# Input: nums1 = [1], m = 1, nums2 = [], n = 0
+# Output: [1]
+# Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+# Output: [1]
+
+
+# nums1 = [2,0], m = 1, nums2 = [1] n = 1
+
+
+# Input: nums = [3,2,2,3], val = 3
+# Output: 2, nums = [2,2,_,_]
+
+# Input: nums = [0,1,2,2,3,0,4,2], val = 2
+# Output: 5, nums = [0,1,4,0,3,_,_,_]
+
+
+def remove_elements(nums, val):
+    b = 0
+
+    for i in range(len(nums)):
+      if nums[i] != val:
+        nums[b], nums[i] = nums[i], nums[b]
+        b += 1
+
+    return len(nums[:b])
+
+
+print(remove_elements([0,1,2,2,3,0,4,2], 2))
+
+
+# Input: nums = [1,1,2]
+# Output: 2, nums = [1,2,_]
+
+# Input: nums = [0,0,1,1,1,2,2,3,3,4]
+# Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+
+
+def remove_duplicates(nums):
+
+  b = 0
+  seen = set()
+
+  for i in range(len(nums)):
+    if nums[i] not in seen:
+      nums[b] = nums[i]
+      b += 1
+      seen.add(nums[i])
+
+  return len(nums[:b])
+
+
+print(remove_duplicates([0,0,1,1,1,2,2,3,3,4]))
+
+
+# Input: nums = [1,1,1,2,2,3]
+# Output: 5, nums = [1,1,2,2,3,_]
+
+# Input: nums = [0,0,1,1,1,1,2,3,3]
+# Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+
+def remove_extra_duplicates(nums):
+
+    b = 0
+    seen = {}
+
+    for i in range(len(nums)):
+      if nums[i] not in seen:
+        nums[b] = nums[i]
+        seen[nums[i]] = 1
+        b += 1
+      elif nums[i] in seen and seen[nums[i]] <= 1:
+        nums[b] = nums[i]
+        seen[nums[i]] += 1
+        b += 1
+
+    return len(nums[:b])
+
+print(remove_extra_duplicates([1,1,1,2,2,3]))
+
+
+# Input: nums = [3,2,3]
+# Output: 3
+
+# Input: nums = [2,2,1,1,1,2,2]
+# Output: 2
+
+def majority_elements(nums):
+
+      map = {}
+    
+      for i in range(len(nums)):
+          if nums[i] not in map:
+            map[nums[i]] = 1
+          else:
+            map[nums[i]] += 1
+
+      
+      n = len(nums)
+      for key, value in map.items():
+          if value > n // 2:
+              return key
+       
+      return None
+
+print(majority_elements([2,2,1,1,1,2,2]))
+
+
+# Input: s = "the sky is blue"
+# Output: "blue is sky the"
+
+# Input: s = "  hello world  "
+# Output: "world hello"
+# Explanation: Your reversed string should not contain leading or trailing spaces.
+
+# Input: s = "a good   example"
+# Output: "example good a"
+# Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+def reverse_string(string):
+
+  words = string.rsplit()
+ 
+  start, end = 0, len(words) - 1
+
+  while start < end:
+    words[start], words[end] = words[end], words[start]
+    start += 1
+    end -= 1
+    
+  return " ".join(words)
+
+print(reverse_string("a good   example"))
+
+
+
+# You are given an m x n integer grid accounts where accounts[i][j] is the amount of money the i^th customer has in the j^th bank. Return the wealth that the richest customer has.
+
+# A customer's wealth is the amount of money they have in all their bank accounts. The richest customer is the customer that has the maximum wealth.
+
+# Input: accounts = [
+# [1,2,3]
+# [3,2,1]
+# ]
+# Output: 6
+# Explanation:
+# 1st customer has wealth = 1 + 2 + 3 = 6
+# 2nd customer has wealth = 3 + 2 + 1 = 6
+# Both customers are considered the richest with a wealth of 6 each, so return 6.
+
+# Example 2:
+# Input: accounts = [
+# [1,5]
+# [7,3],
+# [3,5]
+# ]
+# Output: 10
+# Explanation: 
+# 1st customer has wealth = 6
+# 2nd customer has wealth = 10 
+# 3rd customer has wealth = 8
+# The 2nd customer is the richest with a wealth of 10.
+
+
+# Example 3:
+# Input: accounts = [[2,8,7],[7,1,3],[1,9,5]]
+# Output: 17
+
+def find_maximum_wealth(accounts):
+
+    max_wealth = 0
+
+    for i in range(len(accounts)):
+      curr_sum = 0
+      for j in range(len(accounts[0])):
+        curr_sum += accounts[i][j]
+      max_wealth = max(max_wealth, curr_sum)
+
+    return max_wealth
+
+print(find_maximum_wealth([[1,5], [7,3],[3,5]]))
+
+# Time: O nxn => (n^2), mxn
+# Space: O(1)       
+        
+
+def buy_sell_stock(prices):
+  
+            min_price = prices[0]
+            max_profit = 0
+
+            for price in prices:
+                print('price', price)
+                print('min', min_price)
+                print('max_profit', max_profit)
+                if price < min_price:
+                    min_price = price
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+print(buy_sell_stock([7,1,5,3,6,4]))
+
+
+def canJump(nums):
+    n = len(nums)
+    rightmost = 0
+
+    for i in range(n):
+        if i > rightmost:
+            return False
+        rightmost = max(rightmost, i + nums[i])
+
+    return True
+
+
+def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            max_profit = 0
+            min_price = prices[0]
+
+            for price in prices:
+                if price < min_price:
+                    min_price = price
+
+                else:
+                    max_profit = max(max_profit, price - min_price)
+
+            return max_profit
+
+def jump_game(nums):
+
+    idx = 0
+    end = len(nums)
+    
+
+    for i in range(end):
+        if i > idx:
+          return False
+
+        idx = max(idx, i + nums[i])
+      
+
+    return True
+
+
+print(jump_game([2,3,1,1,4]))
+
+print(jump_game([3,2,1,0,4]))
+
+
+def lengthOfLastWord(s):
+
+  words = s.rsplit()
+
+  last_index = len(words) - 1
+
+  return len(words[last_index])
+
+
+
+print(lengthOfLastWord("luffy is still joyboy"))
+
+
+def find_prefix(strings):
+
+  if not strings:
+    return ""
+
+  prefix = []
+
+  sorted_words = sorted(strings)
+
+  first, last = sorted_words[0], sorted_words[1]
+
+  for i in range(min(len(first), len(last))):
+    if first[i] == last[i]:
+      prefix.append(first[i])
+    else:
+      break
+
+  return "".join(prefix)
+
+print(find_prefix(["flower","flow","flight"]))
+
+  def strStr(self, haystack: str, needle: str) -> int:
+        if not needle:
+            return 0 
+
+        for i in range(len(haystack) - len(needle) + 1):
+            if haystack[i:i+len(needle)] == needle:
+                return i
+
+        return -1  
+
+
+def duplicate_even(nums):
+
+  end = len(nums) - 1
+  index_num = len(nums) - 1
+
+  for i in range(index_num, -1, -1):
+    if nums[i] != None:
+      index_num = i
+      break
+
+  while end >= index_num:
+    if nums[index_num] % 2 == 0:
+      nums[end] =  nums[index_num]
+      end -= 1
+    nums[end] =  nums[index_num]
+    end -= 1
+    index_num -= 1
+
+  return nums
+
+print(duplicate_even([1,2,5,6,8, None, None, None]))
+
+
+def reverse_string(string):
+
+  word = string.rsplit()
+  start = 0
+  end = len(word) - 1
+
+  while start <= end:
+    word[start], word[end] = word[end], word[start]
+    start += 1
+    end -= 1
+
+  return " ".join(word)
+
+print(reverse_string("i live in a house"))
+
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+
+    if root == None:
+        return 0
+
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        
+        if p == None and q == None:
+           return True
+        if p == None or q == None:
+            return False
+        if p.val != q.val:
+            return False
+
+
+  def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root == None:
+            return None
+        
+        root.left, root.right = root.right, root.left
+        
+        self.invertTree(root.left)
+
+        self.invertTree(root.right)
+
+        return root
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(left: TreeNode, right: TreeNode) -> bool:
+            if not left and not right:
+                return True
+            
+            if not left or not right or left.val != right.val:
+                return False
+            
+            return isMirror(left.left, right.right) and isMirror(left.right, right.left)
+        if not root:
+            return True
+        return isMirror(root.left, root.right)
+
+
+  # Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+# A valid BST is defined as follows:
+
+# The left 
+# subtree
+#  of a node contains only nodes with keys less than the node's key.
+# The right subtree of a node contains only nodes with keys greater than the node's key.
+# Both the left and right subtrees must also be binary search trees.
+
+
+#      2
+   # /  \
+  # 2     2
+
+# return False 
+
+#    5
+# /    \ 
+# 1     7
+#      / \
+#      6   10
+
+# return true
+
+#    5
+# /    \ 
+# 1 -root    7
+#      / \
+#      4   10
+
+# return false 
+
+#   5
+# /     
+# 1    
+
+# return true 
+
+
+# left subtree less 
+# right subtree bigger 
+
+
+
+#    5 (5, -00, 00)
+# /    \ 
+# 4     6 (6, 5, 00)
+        / \
+#      3   7      (7, 5, 00 )
+     (3, 5, 6) -> False 
+
+
+def check_bst(root, lo = float('-inf'), hi = float('inf')):
+    if root == None:
+        return True
+
+    if root.val >= lo or root.val <= hi:
+        return False
+        
+    # if root.left is not None and root.left.val >= root.val:
+    #   return False
+
+    # if root.right is not None and root.right.val <= root.val:
+    #   return False
+  
+
+  return check_bst(root.left, lo, root.val) and check_bst(root.right, root.val, high)
+
+# time: O(n)
+# space: O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def isValidBST(root: Optional[TreeNode]):
+        
+        def helper_bst(root, lo = float('-inf'), hi = float('inf')):
+            if root == None:
+                return True
+
+            if root.val <= lo or root.val >= hi:
+                return False
+
+            print("left -------",root.left, lo, root.val)
+            print("right ---------", root.right, root.val, hi)
+
+
+            return helper_bst(root.left, lo, root.val) and helper_bst(root.right, root.val, hi)
+
+        return helper_bst(root)
+
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not inorder:
+            return None
+
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.left = self.buildTree(preorder, inorder[:inorder_index])
+        root.right = self.buildTree(preorder, inorder[inorder_index + 1:])
+
+        return root
+
+ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder or not postorder:
+            return None
+
+        root_val = postorder.pop()
+        root = TreeNode(root_val)
+        inorder_index = inorder.index(root_val)
+
+        root.right = self.buildTree(inorder[inorder_index + 1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_index], postorder)
+
+        return root
+
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+
+        count = 0
+
+        for word in words:
+            consistent = True
+            for char in word:
+                if char not in allowed_set:
+                    consistent = False
+                    break
+
+            if consistent == True:
+                count += 1
+
+        return count
+
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        def helper(node):
+            # Base case
+            if not node:
+                return (0, False)  # (value, isAlive)
+
+            # Recursively get left and right child values
+            left_val, left_alive = helper(node.left)
+            right_val, right_alive = helper(node.right)
+
+            # If current node is a leaf, mark it as alive and return its value
+            if not node.left and not node.right:
+                return (node.val, True)
+
+            # If either child is alive, calculate max value for current node
+            if left_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val)
+            if right_alive:
+                self.max_sum = max(self.max_sum, right_val + node.val)
+            if left_alive and right_alive:
+                self.max_sum = max(self.max_sum, left_val + node.val + right_val)
+
+            # Return max value and whether current node is alive
+            return (node.val + max(left_val * left_alive, right_val * right_alive), False)
+
+        self.max_sum = float('-inf')
+        helper(root)
+        return self.max_sum
+
+# Test the code
+root = TreeNode(5)
+root.left = TreeNode(2)
+root.right = TreeNode(0)
+root.left.left = TreeNode(25)
+root.right.left = TreeNode(14)
+root.right.right = TreeNode(15)
+
+solution = Solution()
+print(solution.maxPathSum(root))  # Expected: 47
+
+
+
+
+
+from collections import deque
+from collections import deque
+
+def wallsAndGates(rooms):
+    if not rooms:
+        return
+
+    INF = 2147483647
+    num_rows, num_cols = len(rooms), len(rooms[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    queue = deque()
+
+    # Add all gates to the queue
+    for row in range(num_rows):
+        for col in range(num_cols):
+            if rooms[row][col] == 0:
+                queue.append((row, col))
+
+    # BFS
+    while queue:
+        current_row, current_col = queue.popleft()
+        for row_direction, col_direction in directions:
+            next_row, next_col = current_row + row_direction, current_col + col_direction
+
+            if 0 <= next_row < num_rows and 0 <= next_col < num_cols and rooms[next_row][next_col] == INF:
+                rooms[next_row][next_col] = rooms[current_row][current_col] + 1
+                queue.append((next_row, next_col))
+
+# Test
+rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]
+wallsAndGates(rooms)
+for row in rooms:
+    print(row)
+
+
+
+def are_they_equal(a,b):
+
+  if len(a) != len(b):
+    return False
+
+  sorted_a= sorted(a)
+  sorted_b= sorted(b)
+
+  return sorted_a == sorted_b
+
+
+print(are_they_equal([1,2,3,4], [1,4,3,]))
+
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n
+    visited = [False] * n
+
+    for i in range(n):
+        if not visited[i]:
+            count = 0
+            j = i
+            # Follow the cycle
+            while not visited[j]:
+                visited[j] = True
+                j = arr[j] - 1  # Adjust index
+                count += 1
+            # Assign the count to each member of the cycle
+            j = i
+            while count > 0:
+                signatures[j] = count
+                j = arr[j] - 1
+                count -= 1
+
+    return signatures
+
+# Example usage
+print(findSignatureCounts([2, 1]))  # Output: [2, 2]
+print(findSignatureCounts([1, 2]))  # Output: [1, 1]
+
