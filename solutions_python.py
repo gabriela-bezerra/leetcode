@@ -5198,6 +5198,29 @@ def duplicate_even(nums):
 
 print(duplicate_even([1,2,5,6,8, None, None, None]))
 
+def duplicate_even_numbers(numbers):
+    if not numbers:
+        return "Not valid"
+
+    p = len(numbers) - 1
+    val_i = 0
+
+    for i in range(p,-1,-1):
+        if numbers[i] != None:
+            val_i = i
+            break
+
+    while p >= val_i:
+        if numbers[val_i] % 2 == 0:
+            numbers[p] = numbers[val_i]
+            p -= 1
+        numbers[p] = numbers[val_i]
+        p -= 1
+        val_i -= 1
+
+    return numbers
+
+print(duplicate_even_numbers([1,3,4,2,5, None, None]))
 
 def reverse_string(string):
 
@@ -11082,3 +11105,107 @@ def findSignatureCounts(arr):
 print(findSignatureCounts([2, 1]))  # Output: [2, 2]
 print(findSignatureCounts([1, 2]))  # Output: [1, 1]
 
+
+
+def findSignatureCounts(arr):
+    n = len(arr)
+    signatures = [0] * n  # Initialize the signatures array with zeros
+    visited = [False] * n  # Keep track of visited students
+
+    # Process each student
+    for i in range(n):
+        print("i::", i, "n::", n)
+        if not visited[i]:
+            current = i
+            count = 0
+            # Simulate the passing process
+            while not visited[current]:
+                visited[current] = True
+                count += 1
+                current = arr[current] - 1  # Move to the next student in the cycle
+
+            # Once the cycle is complete, update the signatures count for all students in the cycle
+            current = i
+            while signatures[current] == 0:
+                signatures[current] = count
+                current = arr[current] - 1
+
+    return signatures
+
+# Test the function with the provided examples
+print(findSignatureCounts([2, 1]))  # Example 1
+print(findSignatureCounts([1, 2]))  # Example 2
+
+
+def count_subarrays(arr):
+
+    n = len(arr)
+    result = [1] * n
+
+
+    for i in range(n):
+        left = i -1 
+        while left >= 0 and arr[left] < arr[i]:
+            result[i] += 1
+            left -= 1
+
+    for i in range(n):
+        right = i + 1
+        while right  < n and arr[right] < arr[i]:
+            result[i] += 1
+            right += 1
+
+    return result
+
+arr = [3, 4, 1, 6, 2]
+print(count_subarrays(arr))  # Output: [1, 3, 1, 5, 1]
+
+
+def count_subarrays(arr):
+
+    n = len(arr)
+    result = [1] * n
+
+
+    for i in range(n):
+        left = i -1 
+        while left >= 0 and arr[left] < arr[i]:
+            result[i] += 1
+            left -= 1
+
+    for i in range(n):
+        right = i + 1
+        while right  < n and arr[right] < arr[i]:
+            result[i] += 1
+            right += 1
+
+    return result
+
+arr = [3, 4, 1, 6, 2]
+print(count_subarrays(arr))  # Output: [1, 3, 1, 5, 1]
+
+
+def rotational_cipher(input_str, rotation_factor):
+    result = ""
+
+    for char in input_str:
+        if char.isalpha():
+            # Determine if the character is uppercase or lowercase
+            start = ord('A') if char.isupper() else ord('a')
+            # Apply rotation with modulo to wrap around
+            offset = (ord(char) - start + rotation_factor) % 26
+            rotated_char = chr(start + offset)
+        elif char.isdigit():
+            # Apply rotation for digits with modulo 10
+            rotated_char = str((int(char) + rotation_factor) % 10)
+        else:
+            # Non-alphanumeric characters remain unchanged
+            rotated_char = char
+
+        result += rotated_char
+
+    return result
+
+# Test the function with provided examples
+print(rotational_cipher("Zebra-493?", 3))  # Output: Cheud-726?
+print(rotational_cipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39))  # Output: nopqrstuvwxyzABCDEFGHIJKLM9012345678
