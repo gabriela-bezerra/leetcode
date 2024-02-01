@@ -11209,3 +11209,101 @@ def rotational_cipher(input_str, rotation_factor):
 # Test the function with provided examples
 print(rotational_cipher("Zebra-493?", 3))  # Output: Cheud-726?
 print(rotational_cipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39))  # Output: nopqrstuvwxyzABCDEFGHIJKLM9012345678
+
+
+
+
+
+
+def rotationalCipher(input_str, rotation_factor):
+    lower_letter = "abcdefghijklmnopqrstuvwyxz"
+    upper_letter = lower_letter.upper()
+    numbers = "0123456789"
+    
+    result = ""
+    
+    for char in input_str:
+        if char.islower():
+            new_index = (lower_letter.index(char) + rotation_factor) % 26
+            result += lower_letter[new_index]
+    
+        elif char.isupper():
+            new_index = (upper_letter.index(char) + rotation_factor) % 26
+            result += upper_letter[new_index]
+        
+        elif char in numbers:
+            new_index = (numbers.index(char) + rotation_factor) % 10
+            result += numbers[new_index]
+        
+        else: 
+            result += char 
+        
+    
+    return result 
+
+print(rotationalCipher("Zebra-493?", 3))  # Output: Cheud-726?
+print(rotationalCipher("abcdefghijklmNOPQRSTUVWXYZ0123456789", 39)) 
+
+
+def isValidAbbreviation(word, abbr):
+    word_index, abbr_index = 0, 0
+
+    while abbr_index < len(abbr):
+        if abbr[abbr_index].isalpha():
+            if word_index >= len(word) or word[word_index] != abbr[abbr_index]:
+                return False
+            word_index += 1
+            abbr_index += 1
+        else:
+            if abbr[abbr_index] == '0':  # Leading zero check
+                return False
+            start_index = abbr_index
+            while abbr_index < len(abbr) and abbr[abbr_index].isdigit():
+                abbr_index += 1
+            num = int(abbr[start_index:abbr_index])
+            word_index += num
+
+    return word_index == len(word)
+
+# Test the function with provided examples
+print(isValidAbbreviation("internationalization", "i12iz4n"))  # Output: true
+print(isValidAbbreviation("apple", "a2e"))                      # Output: false
+
+
+def matchingPairs(s, t):
+    # Special case: if s and t are identical, the best swap will reduce the match by 2.
+    if s == t:
+        return len(s) - 2 if len(s) > 1 else 0
+
+    # Initialize variables to store matches and mismatches.
+    mismatched = []  # To keep track of indices where s and t differ.
+    matches = 0      # Count of initial matching pairs.
+
+    # Iterate through the strings to count matches and identify mismatches.
+    for i in range(len(s)):
+        if s[i] == t[i]:
+            matches += 1
+        else:
+            mismatched.append((s[i], t[i]))
+
+    # If there are no mismatches and strings are not identical, we can only reduce matches.
+    if not mismatched:
+        return matches - 2
+
+    # Convert mismatched pairs to a set for efficient lookups.
+    mismatched_set = set(mismatched)
+
+    # Check if there is a perfect swap or a one-sided match swap.
+    for a, b in mismatched:
+        # Check for a perfect swap - a swap that results in two new matches.
+        if (b, a) in mismatched_set:
+            return matches + 2
+        # Check for a one-sided match swap - a swap that results in one new match.
+        if any(b == x for x, _ in mismatched):
+            matches += 1
+
+    return matches
+
+# Test the function with provided examples
+print(matchingPairs("abcd", "adcb"))  # Output: 4
+print(matchingPairs("mno", "mno"))    # Output: 1
